@@ -11,7 +11,9 @@ module.exports = function(api) {
             '@': './',
             '@components': './components',
             '@screens': './screens',
-            '@helpers': './helpers'
+            '@helpers': './helpers',
+            '@types': './types',
+            '@constants': './constants'
           }
         }
       ]

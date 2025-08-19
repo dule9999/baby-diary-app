@@ -1,81 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import {
-    Button,
     FlatList,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native'
-import {ScreenWrapper, EntryCard} from '@components'
+import { ScreenWrapper, EntryCard, Button } from '@components'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
-import { formatNewEntryDate } from '@/helpers/formatDate'
+import { useFocusEffect } from '@react-navigation/native'
+import { Entry } from '@types';
+import { getEntries, clearEntries } from '@helpers'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
-interface Entry {
-  id: string
-  date: string
-  note: string
-}
-
 const DiaryScreen: React.FC<Props> = ({ navigation }) => {
-  const [entries, setEntries] = useState<Entry[]>([
-    { id: '1', date: 'March 13th 2025, 09:30', note: 'First nap of the day' },
-    { id: '2', date: 'April 7th 2025, 12:45', note: 'Fed 60ml formula' },
-    { id: '3', date: 'August 18th 2025, 15:20', note: 'Played tummy time' },
-  ])
-  const [newNote, setNewNote] = useState('')
+  const [entries, setEntries] = useState<Entry[]>([])
 
-  const addEntry = () => {
-    if (!newNote) return
+  const loadEntries = useCallback(async () => {
+    const storedEntries = await getEntries()
+    setEntries(storedEntries)
+  }, [])
 
-    const newEntry: Entry = {
-      id: (entries.length + 1).toString(),
-      date: formatNewEntryDate(new Date()),
-      note: newNote,
-    }
-    setEntries([newEntry, ...entries])
-    setNewNote('')
-  }
+  useFocusEffect(
+    useCallback(() => {
+      loadEntries()
+    }, [])
+  )
 
   return (
     <ScreenWrapper>
       <Text style={styles.title}>Baby Diary</Text>
-      <View style={styles.newEntryBtnHolder}>
-        <Button title="New Entry" onPress={() => navigation.navigate('NewEntry')} />
+      <View style={styles.btnsHolder}>
+        <Button 
+          title="NEW ENTRY" 
+          onPress={() => navigation.navigate('NewEntry')}
+          style={styles.newEntryBtn}
+        />
+        <Button 
+          title="DELETE ALL" 
+          onPress={async () => {
+            await clearEntries()
+            setEntries([])
+          }}
+          style={styles.deleteAllBtn}
+        />
       </View>
-      {/* <TextInput
-        style={styles.input}
-        placeholder="Add a new note..."
-        value={newNote}
-        onChangeText={setNewNote}
-      /> */}
-
-      <FlatList
-        data={entries}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate('EntryDetail', { entryId: item.id })
-            }
-          >
-            <EntryCard entry={item} />
-          </TouchableOpacity>
-        )}
-        style={styles.entriesList}
-      />
+      {entries.length === 0 ? 
+        <Text style={styles.noEntriesText}>No entries yet.</Text> :
+        <FlatList
+          data={entries}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('EntryDetail', { entryId: item.id })
+              }
+            >
+              <EntryCard entry={item} />
+            </TouchableOpacity>
+          )}
+          style={styles.entriesList}
+        />
+        }
     </ScreenWrapper>
   )
 }
 
 const styles = StyleSheet.create({
-  newEntryBtnHolder: { marginTop: 12 },
+  noEntriesText: {margin: 50, alignSelf: 'center', fontSize: 20},
+  btnsHolder: {flexDirection: 'row', justifyContent: 'space-between'},
+  newEntryBtn: { backgroundColor: 'blue' },
+  deleteAllBtn: {backgroundColor: 'red'},
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
-  input: { borderWidth: 1, padding: 8, marginBottom: 8, borderRadius: 8 },
   entriesList: { marginTop: 16 },
 })
 

@@ -1,42 +1,50 @@
-import React from 'react'
-import { View, Text, Pressable, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import React, { useState } from 'react'
+import { View, StyleSheet, TouchableWithoutFeedback, TextInput } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
-import ScreenWrapper from '@/components/ScreenWrapper'
+import { Button } from '@components'
+import { Entry } from '@types';
+import { formatNewEntryDate, saveEntry } from '@helpers'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewEntry'>
 
 const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
+  const [newNote, setNewNote] = useState<string>('')
+
+
+
+  const addNewEntry = async () => {
+    if(!newNote) return
+
+    const newEntry: Entry = {
+      id: Date.now().toString(),
+      date: formatNewEntryDate(new Date()),
+      note: newNote,
+    }
+
+    await saveEntry(newEntry)
+    setNewNote('')
+  }
+
   return (
     <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
       <View style={styles.overlay}>
         <TouchableWithoutFeedback>
           <View style={styles.modal}>
-            <Text style={styles.title}>Add New Entry</Text>
-
-            <Pressable
-              style={styles.button}
-              onPress={() => {
+            <TextInput
+              style={styles.input}
+              placeholder="Add a new note..."
+              value={newNote}
+              onChangeText={setNewNote}
+            />
+            <Button
+              title='ADD'
+              style={styles.addNoteBtn}
+              onPress={async () => {
+                await addNewEntry()
                 navigation.goBack()
-                navigation.navigate('NewEntry')
               }}
-            >
-              <Text>Add Note</Text>
-            </Pressable>
-
-            <Pressable
-              style={styles.button}
-              onPress={() => console.log('Add Feed or Nap')}
-            >
-              <Text>Add Feed</Text>
-            </Pressable>
-
-            <Pressable
-              style={[styles.button, styles.cancelButton]}
-              onPress={() => navigation.goBack()}
-            >
-              <Text>Cancel</Text>
-            </Pressable>
+            />
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -63,16 +71,14 @@ const styles = StyleSheet.create({
     color: '#000',
     marginBottom: 12,
   },
-  button: {
-    padding: 12,
-    marginVertical: 6,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    alignItems: 'center',
+  button: {margin: 5},
+  addNoteBtn: {
+    backgroundColor: 'green'
   },
-  cancelButton: {
-    backgroundColor: '#f88',
+  cancelBtn: {
+    backgroundColor: 'red',
   },
+  input: { borderWidth: 1, padding: 8, marginBottom: 8, borderRadius: 8 },
 })
 
 export default NewEntryScreen

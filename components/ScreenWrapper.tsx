@@ -6,7 +6,7 @@ interface ScreenWrapperProps extends ViewProps {
   children: React.ReactNode
 }
 
-const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ children, style, ...props }) => {
+export const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ children, style, ...props }) => {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={[styles.container, style]} {...props}>
@@ -27,5 +27,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
 })
-
-export default ScreenWrapper

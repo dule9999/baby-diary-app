@@ -9,7 +9,7 @@ interface EntryCardProps {
     }
 }
 
-const EntryCard: React.FC<EntryCardProps> = ({ entry }) => {
+export const EntryCard: React.FC<EntryCardProps> = ({ entry }) => {
     return (
         <View style={styles.card}>
             <Text style={styles.date}>{entry.date}</Text>
@@ -23,5 +23,3 @@ const styles = StyleSheet.create({
   date: { fontWeight: 'bold' },
   note: { marginTop: 4 },
 });
-
-export default EntryCard;

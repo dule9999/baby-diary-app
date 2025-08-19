@@ -8,7 +8,9 @@
       "@components": ["components/index"],
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
-      "@helpers/*": ["helpers/*"]
+      "@helpers": ["helpers"],
+      "@types": ["types"],
+      "@constants": ["constants"]
     }
   },
   "include": [

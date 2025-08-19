@@ -6,7 +6,7 @@ interface ButtonProps extends Omit<PressableProps, 'style'> {
   style?: StyleProp<ViewStyle>
 }
 
-const Button: React.FC<ButtonProps> = ({ title, style, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ title, style, ...props }) => {
   return (
     <Pressable
       {...props}
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 8,
     alignItems: 'center',
+    alignSelf: 'flex-start',
   },
   pressed: {
     opacity: 0.8,
@@ -38,5 +39,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 })
-
-export default Button

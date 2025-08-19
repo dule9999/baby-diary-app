@@ -1,19 +1,19 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { RootStackParamList } from '../App'
+import { ScreenWrapper } from '@components'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 
 const EntryDetailScreen: React.FC<Props> = ({ route }) => {
   const { entryId } = route.params
 
-  // Later we’ll fetch entry details from context or storage. For now, just show the ID.
   return (
-    <View style={styles.container}>
+    <ScreenWrapper>
       <Text style={styles.title}>Entry Detail</Text>
       <Text>Entry ID: {entryId}</Text>
-    </View>
+    </ScreenWrapper>
   )
 }
 

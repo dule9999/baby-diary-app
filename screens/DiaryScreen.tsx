@@ -18,10 +18,10 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 const DiaryScreen: React.FC<Props> = ({ navigation }) => {
   const [entries, setEntries] = useState<Entry[]>([])
 
-  const loadEntries = useCallback(async () => {
+  const loadEntries = async () => {
     const storedEntries = await getEntries()
     setEntries(storedEntries)
-  }, [])
+  }
 
   useFocusEffect(
     useCallback(() => {

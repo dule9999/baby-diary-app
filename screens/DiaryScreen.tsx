@@ -1,5 +1,3 @@
-import EntryCard from '@/components/EntryCard'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import {
     Button,
@@ -10,7 +8,10 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
+import {ScreenWrapper, EntryCard} from '@components'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
+import { formatNewEntryDate } from '@/helpers/formatDate'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
@@ -22,17 +23,18 @@ interface Entry {
 
 const DiaryScreen: React.FC<Props> = ({ navigation }) => {
   const [entries, setEntries] = useState<Entry[]>([
-    { id: '1', date: '2025-08-18', note: 'First nap of the day' },
-    { id: '2', date: '2025-08-18', note: 'Fed 60ml formula' },
-    { id: '3', date: '2025-08-18', note: 'Played tummy time' },
+    { id: '1', date: 'March 13th 2025, 09:30', note: 'First nap of the day' },
+    { id: '2', date: 'April 7th 2025, 12:45', note: 'Fed 60ml formula' },
+    { id: '3', date: 'August 18th 2025, 15:20', note: 'Played tummy time' },
   ])
   const [newNote, setNewNote] = useState('')
 
   const addEntry = () => {
     if (!newNote) return
+
     const newEntry: Entry = {
       id: (entries.length + 1).toString(),
-      date: new Date().toISOString().slice(0, 10),
+      date: formatNewEntryDate(new Date()),
       note: newNote,
     }
     setEntries([newEntry, ...entries])
@@ -40,15 +42,17 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScreenWrapper>
       <Text style={styles.title}>Baby Diary</Text>
-      <TextInput
+      <View style={styles.newEntryBtnHolder}>
+        <Button title="New Entry" onPress={() => navigation.navigate('NewEntry')} />
+      </View>
+      {/* <TextInput
         style={styles.input}
         placeholder="Add a new note..."
         value={newNote}
         onChangeText={setNewNote}
-      />
-      <Button title="Add Entry" onPress={addEntry} />
+      /> */}
 
       <FlatList
         data={entries}
@@ -62,21 +66,17 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
             <EntryCard entry={item} />
           </TouchableOpacity>
         )}
-        style={{ marginTop: 16 }}
+        style={styles.entriesList}
       />
-
-      {/* Optional: navigate to a separate AddEntry screen */}
-      {/* <View style={{ marginTop: 12 }}>
-        <Button title="Go to Add Entry screen" onPress={() => navigation.navigate('AddEntry')} />
-      </View> */}
-    </View>
+    </ScreenWrapper>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: '#fff' },
+  newEntryBtnHolder: { marginTop: 12 },
   title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   input: { borderWidth: 1, padding: 8, marginBottom: 8, borderRadius: 8 },
+  entriesList: { marginTop: 16 },
 })
 
 export default DiaryScreen

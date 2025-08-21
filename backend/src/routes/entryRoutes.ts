@@ -13,7 +13,6 @@ router.get('/entries', listEntries);
 router.get('/entries/:id', getEntry);
 router.post('/entries', createEntryHandler);
 router.put('/entries/:id', updateEntryHandler);
-// (You can add PATCH later for partial updates)
 router.delete('/entries/:id', deleteEntryHandler);
 
 export default router;

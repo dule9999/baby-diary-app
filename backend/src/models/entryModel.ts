@@ -1,7 +1,6 @@
 import { pool } from '../db';
 import { v4 as uuidv4 } from 'uuid';
 
-// The shape we return to the API caller (frontend)
 export type Entry = {
   id: string;
   date: string; // ISO
@@ -9,7 +8,6 @@ export type Entry = {
 };
 
 function rowToEntry(row: any): Entry {
-  // row.date is a Date from pg; convert to ISO string
   return {
     id: row.id,
     date: new Date(row.date).toISOString(),
@@ -34,7 +32,6 @@ export async function getEntryById(id: string): Promise<Entry | null> {
 }
 
 export async function createEntry(input: { date: string; note: string }): Promise<Entry> {
-  // Validate date input
   const d = new Date(input.date);
   if (Number.isNaN(d.getTime())) {
     throw new Error('Invalid date. Provide an ISO-like string, e.g. 2025-08-20T10:00:00Z');

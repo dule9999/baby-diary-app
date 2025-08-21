@@ -1,7 +1,6 @@
 import { pool } from './db';
 
 export async function initDb() {
-  // Create table if it doesn't exist
   await pool.query(`
     CREATE TABLE IF NOT EXISTS entries (
       id UUID PRIMARY KEY,

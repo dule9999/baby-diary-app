@@ -1,4 +1,3 @@
-// components/ScreenWrapper.tsx
 import React from 'react'
 import { SafeAreaView, StyleSheet, View, ViewProps } from 'react-native'
 

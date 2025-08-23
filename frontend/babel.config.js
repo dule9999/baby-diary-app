@@ -12,9 +12,9 @@ module.exports = function(api) {
             '@components': './components',
             '@screens': './screens',
             '@helpers': './helpers',
-            '@types': './types',
             '@constants': './constants',
-            '@services': './services'
+            '@services': './services',
+            '@sharedTypes': '../shared/types',
           }
         }
       ]

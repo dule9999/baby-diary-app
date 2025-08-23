@@ -8,13 +8,14 @@
       "@components/*": ["components/*"],
       "@screens/*": ["screens/*"],
       "@helpers": ["helpers"],
-      "@types": ["types"],
       "@constants": ["constants"],
-      "@services": ["services"]
+      "@services": ["services"],
+      "@sharedTypes": ["../shared/types/index.ts"],
     }
   },
   "include": [
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "../shared/**/*.ts",
   ]
 }

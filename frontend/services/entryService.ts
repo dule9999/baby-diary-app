@@ -1,4 +1,4 @@
-import { Entry } from '../types/Entry';
+import { Entry } from '@sharedTypes';
 import { API_ENTRIES } from '@constants';
 
 export async function fetchEntries(): Promise<Entry[]> {

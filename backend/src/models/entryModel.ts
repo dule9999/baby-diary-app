@@ -1,11 +1,6 @@
 import { pool } from '../db';
 import { v4 as uuidv4 } from 'uuid';
-
-export type Entry = {
-  id: string;
-  date: string; // ISO
-  note: string;
-};
+import { Entry } from '@sharedTypes'
 
 function rowToEntry(row: any): Entry {
   return {

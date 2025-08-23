@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Entry } from '@types';
+import { Entry } from '@sharedTypes';
 import { DIARY_ENTRIES } from '@constants';
 
 

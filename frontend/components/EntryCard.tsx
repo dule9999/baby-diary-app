@@ -1,12 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { Entry } from '@sharedTypes'
 
 interface EntryCardProps {
-    entry: {
-        id: string
-        date: string
-        note: string
-    }
+    entry: Entry
 }
 
 export const EntryCard: React.FC<EntryCardProps> = ({ entry }) => {

@@ -10,7 +10,7 @@ import { ScreenWrapper, EntryCard, Button } from '@components'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
 import { useFocusEffect } from '@react-navigation/native'
-import { Entry } from '@types';
+import { Entry } from '@sharedTypes';
 import { fetchEntries, deleteAllEntries } from '@services'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>

@@ -5,6 +5,7 @@ import { RootStackParamList } from '../App'
 import { ScreenWrapper, Button } from '@components'
 import { Entry } from '@sharedTypes'
 import { fetchEntry, updateEntry, deleteEntry } from '@services'
+import { formatEntryDate } from '@helpers'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 
@@ -16,7 +17,12 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
   const loadEntry = async () => {
     try {
       const res = await fetchEntry(entryId)
-      setEntry(res)
+      const fetchedEntry: Entry = {
+        id: entryId,
+        note: res.note,
+        date: formatEntryDate(res.date)
+      }
+      setEntry(fetchedEntry)
       setEditedNote(res.note || '')
     } catch (err) {
       console.error(err)

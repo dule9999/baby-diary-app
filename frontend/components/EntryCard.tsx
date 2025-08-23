@@ -1,15 +1,19 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Entry } from '@sharedTypes'
+import { formatEntryDate } from '@helpers'
+
 
 interface EntryCardProps {
     entry: Entry
 }
 
 export const EntryCard: React.FC<EntryCardProps> = ({ entry }) => {
+    const formattedDate = formatEntryDate(entry.date)
+
     return (
         <View style={styles.card}>
-            <Text style={styles.date}>{entry.date}</Text>
+            <Text style={styles.date}>{formattedDate}</Text>
             <Text style={styles.note}>{entry.note}</Text>
         </View>
     )

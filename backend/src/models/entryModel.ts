@@ -72,3 +72,8 @@ export async function deleteEntry(id: string): Promise<boolean> {
   const res = await pool.query(`DELETE FROM entries WHERE id = $1;`, [id]);
   return (res.rowCount ?? 0) > 0;
 }
+
+export async function deleteAllEntries(): Promise<boolean> {
+  const res = await pool.query(`DELETE FROM entries`)
+  return (res.rowCount ?? 0) > 0
+}

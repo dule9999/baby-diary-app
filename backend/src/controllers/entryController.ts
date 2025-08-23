@@ -5,6 +5,7 @@ import {
   createEntry,
   updateEntry,
   deleteEntry,
+  deleteAllEntries,
 } from '../models/entryModel';
 
 export async function listEntries(req: Request, res: Response) {
@@ -71,5 +72,18 @@ export async function deleteEntryHandler(req: Request, res: Response) {
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ error: 'Failed to delete entry' });
+  }
+}
+
+export async function deleteAllEntriesHandler(req: Request, res: Response) {
+  try {
+    const ok = await deleteAllEntries()
+    if (!ok) {
+      return res.status(404).json({ message: 'No entries to delete' })
+    }
+    res.status(204).send()
+  } catch (err: any) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete all entries' });
   }
 }

@@ -11,8 +11,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
 import { useFocusEffect } from '@react-navigation/native'
 import { Entry } from '@types';
-import { clearEntries } from '@helpers'
-import { fetchEntries } from '../services/entryService'
+import { fetchEntries, deleteAllEntries } from '../services/entryService'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
@@ -20,12 +19,17 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
   const [entries, setEntries] = useState<Entry[]>([])
 
   const loadEntries = async () => {
-    try {
-      const apiEntries = await fetchEntries()
-      setEntries(apiEntries)
-    } catch (err) {
-      console.error('Failed to load entries', err)
-    }
+    const apiEntries = await fetchEntries()
+    setEntries(apiEntries)
+  }
+
+  const clearEntries = async () => {
+    await deleteAllEntries()
+    setEntries([])
+  }
+
+  const navigateToNewEntry = () => {
+    navigation.navigate('NewEntry')
   }
 
   useFocusEffect(
@@ -40,15 +44,12 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.btnsHolder}>
         <Button 
           title="NEW ENTRY" 
-          onPress={() => navigation.navigate('NewEntry')}
+          onPress={navigateToNewEntry}
           style={styles.newEntryBtn}
         />
         <Button 
           title="DELETE ALL" 
-          onPress={async () => {
-            await clearEntries()
-            setEntries([])
-          }}
+          onPress={clearEntries}
           style={styles.deleteAllBtn}
         />
       </View>

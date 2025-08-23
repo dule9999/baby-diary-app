@@ -37,3 +37,8 @@ export async function deleteEntry(id: string): Promise<void> {
   const res = await fetch(`${API_ENTRIES}/${id}`, { method: 'DELETE' });
   if (!res.ok) throw new Error('Failed to delete entry');
 }
+
+export async function deleteAllEntries(): Promise<void> {
+  const res = await fetch(`${API_ENTRIES}`, { method: 'DELETE' })
+  if (!res.ok) throw new Error('Failed to delete all entries') 
+}

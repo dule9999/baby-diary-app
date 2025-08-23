@@ -13,7 +13,8 @@ module.exports = function(api) {
             '@screens': './screens',
             '@helpers': './helpers',
             '@types': './types',
-            '@constants': './constants'
+            '@constants': './constants',
+            '@services': './services'
           }
         }
       ]

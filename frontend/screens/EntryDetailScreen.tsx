@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, View, Alert } from 'react-native'
 import { RootStackParamList } from '../App'
 import { ScreenWrapper, Button } from '@components'
 import { Entry } from '@types'
-import { fetchEntry, updateEntry, deleteEntry } from 'services/entryService'
+import { fetchEntry, updateEntry, deleteEntry } from '@services'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 

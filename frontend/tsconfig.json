@@ -9,7 +9,8 @@
       "@screens/*": ["screens/*"],
       "@helpers": ["helpers"],
       "@types": ["types"],
-      "@constants": ["constants"]
+      "@constants": ["constants"],
+      "@services": ["services"]
     }
   },
   "include": [

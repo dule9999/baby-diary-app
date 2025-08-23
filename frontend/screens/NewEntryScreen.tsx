@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Alert } from 're
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
 import { Button } from '@components'
-import { createEntry } from 'services/entryService'
+import { createEntry } from '@services'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewEntry'>
 

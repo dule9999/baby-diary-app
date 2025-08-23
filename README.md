@@ -1,4 +1,4 @@
-# Baby Diary App Classic
+# Baby Diary App
 
 A simple full-stack baby diary app built with **React Native + Expo** (frontend) and **Node.js + Express + PostgreSQL** (backend).  
 

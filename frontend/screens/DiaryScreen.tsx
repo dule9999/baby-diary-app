@@ -11,7 +11,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
 import { useFocusEffect } from '@react-navigation/native'
 import { Entry } from '@types';
-import { getEntries, clearEntries } from '@helpers'
+import { clearEntries } from '@helpers'
+import { fetchEntries } from '../services/entryService'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
@@ -19,8 +20,12 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
   const [entries, setEntries] = useState<Entry[]>([])
 
   const loadEntries = async () => {
-    const storedEntries = await getEntries()
-    setEntries(storedEntries)
+    try {
+      const apiEntries = await fetchEntries()
+      setEntries(apiEntries)
+    } catch (err) {
+      console.error('Failed to load entries', err)
+    }
   }
 
   useFocusEffect(

@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextInput, View, Alert } from 'react-native'
 import { RootStackParamList } from '../App'
 import { ScreenWrapper, Button } from '@components'
 import { Entry } from '@types'
-import { getEntries, saveEntry, deleteEntry, updateEntry } from '@helpers'
+import { fetchEntry, updateEntry, deleteEntry } from 'services/entryService'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 
@@ -13,12 +13,15 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
   const [entry, setEntry] = useState<Entry | null>(null)
   const [editedNote, setEditedNote] = useState<string>('')
 
-  // Load entry from storage
   const loadEntry = async () => {
-    const entries = await getEntries()
-    const current = entries.find(e => e.id === entryId) || null
-    setEntry(current)
-    setEditedNote(current?.note || '')
+    try {
+      const res = await fetchEntry(entryId)
+      setEntry(res)
+      setEditedNote(res.note || '')
+    } catch (err) {
+      console.error(err)
+      Alert.alert("Error", "Could not load entry")
+    }
   }
 
   useEffect(() => {
@@ -26,22 +29,28 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
   }, [])
 
   const saveEditedEntry = async () => {
-  if (!entry) return
-  const updatedEntry: Entry = { ...entry, note: editedNote }
+    if (!entry) return
+    const updatedEntry: Entry = { ...entry, note: editedNote }
 
-  try {
-    await updateEntry(updatedEntry)
-    setEntry(updatedEntry)
-    Alert.alert('Success', 'Entry updated successfully!')
-  } catch (err) {
-    console.error(err)
-    Alert.alert('Error', 'Failed to update entry.')
+    try {
+      const res = await updateEntry(entryId, updatedEntry)
+      setEntry(res)
+      Alert.alert("Success", "Entry updated successfully!")
+    } catch (err) {
+      console.error(err)
+      Alert.alert("Error", "Failed to update entry")
+    }
   }
-}
 
   const handleDelete = async () => {
-    await deleteEntry(entryId)
-    navigation.goBack()
+    try {
+      await deleteEntry(entryId)
+      Alert.alert("Success", "Entry deleted successfully!")
+      navigation.goBack()
+    } catch (err) {
+      console.error(err)
+      Alert.alert("Error", "Failed to delete entry")
+    }
   }
 
   return (

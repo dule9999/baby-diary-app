@@ -1,29 +1,34 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput } from 'react-native'
+import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Alert } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../App'
 import { Button } from '@components'
-import { Entry } from '@types';
-import { formatNewEntryDate, saveEntry } from '@helpers'
+import { createEntry } from 'services/entryService'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewEntry'>
 
 const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
   const [newNote, setNewNote] = useState<string>('')
 
-
-
   const addNewEntry = async () => {
-    if(!newNote) return
+    if (!newNote.trim()) {
+      Alert.alert("Error", "Note cannot be empty")
+      return
+    }
 
-    const newEntry: Entry = {
-      id: Date.now().toString(),
-      date: formatNewEntryDate(new Date()),
+    const newEntry = {
+      date: new Date().toISOString(),
       note: newNote,
     }
 
-    await saveEntry(newEntry)
-    setNewNote('')
+    try {
+      const res = await createEntry(newEntry)
+      setNewNote('')
+      navigation.goBack()
+    } catch (err) {
+      console.error(err)
+      Alert.alert("Error", "Failed to create entry")
+    }
   }
 
   return (
@@ -42,7 +47,6 @@ const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
               style={styles.addNoteBtn}
               onPress={async () => {
                 await addNewEntry()
-                navigation.goBack()
               }}
             />
           </View>

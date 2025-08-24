@@ -11,6 +11,7 @@
       "@constants": ["constants"],
       "@services": ["services"],
       "@sharedTypes": ["../shared/types/index.ts"],
+      "@contexts": ["contexts"],
     }
   },
   "include": [

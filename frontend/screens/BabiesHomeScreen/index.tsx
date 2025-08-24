@@ -5,6 +5,7 @@ import { RootStackParamList } from '../../App'
 import { ScreenWrapper } from "@components"
 import BabiesList from "./components/BabiesList"
 import { Button } from "@components"
+import { useAuth } from "@contexts"
 
 type Props = NativeStackScreenProps<RootStackParamList, 'BabiesHome'>
 
@@ -14,6 +15,8 @@ export const mockBabies = [
 ]
 
 const BabiesHomeScreen: React.FC<Props> = ({ navigation }) => {
+    const { logout } = useAuth();
+
     const navigateToAddBaby = () => {
         navigation.navigate('AddBaby')
     }
@@ -21,6 +24,7 @@ const BabiesHomeScreen: React.FC<Props> = ({ navigation }) => {
     return (
         <ScreenWrapper>
             <Text style={styles.title}>Babies Home Screen</Text>
+            <Button title="Logout" onPress={logout} />
             <Button 
                 title="ADD BABY"
                 onPress={navigateToAddBaby}

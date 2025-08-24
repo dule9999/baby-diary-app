@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { testConnection } from './db';
 import { initDb } from './dbInit';
+import authRoutes from './routes/authRoutes';
+import babyRoutes from './routes/babyRoutes';
 import entryRoutes from './routes/entryRoutes';
 
 dotenv.config();
@@ -17,7 +19,8 @@ app.get('/', (req, res) => {
   res.send('Baby Diary Backend is running!');
 });
 
-// Mount our API under /api
+app.use('/auth', authRoutes);
+app.use('/api/babies', babyRoutes);
 app.use('/api', entryRoutes);
 
 app.listen(PORT, async () => {

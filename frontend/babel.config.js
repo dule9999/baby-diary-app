@@ -15,6 +15,7 @@ module.exports = function(api) {
             '@constants': './constants',
             '@services': './services',
             '@sharedTypes': '../shared/types',
+            '@contexts': './contexts',
           }
         }
       ]

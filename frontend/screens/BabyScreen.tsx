@@ -2,23 +2,33 @@ import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../App"
+import { Button, ScreenWrapper } from "@components"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Baby">
 
-const BabyScreen: React.FC<Props> = ({ route }) => {
+const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
 
+  const goBack = () => {
+    navigation.goBack()
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{baby.name}</Text>
-      <Text>ID: {baby.id}</Text>
-    </View>
+    <ScreenWrapper>
+      <Text style={styles.title}>Baby Screen</Text>
+      <Button title="Go Back" onPress={goBack} />
+      <View style={styles.content}>
+        <Text style={styles.name}>{baby.name}</Text>
+        <Text>ID: {baby.id}</Text>
+      </View>
+    </ScreenWrapper>
   )
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center", alignItems: "center" },
-  title: { fontSize: 24, fontWeight: "bold" },
+  title: {fontSize: 24, fontWeight: 'bold', marginBottom: 16},
+  content: {margin:20},
+  name: { fontSize: 24, fontWeight: "bold" },
 })
 
 export default BabyScreen

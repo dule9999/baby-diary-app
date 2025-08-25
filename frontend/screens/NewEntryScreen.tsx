@@ -43,7 +43,7 @@ const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
               onChangeText={setNewNote}
             />
             <Button
-              title='ADD'
+              text='ADD'
               style={styles.addNoteBtn}
               onPress={async () => {
                 await addNewEntry()

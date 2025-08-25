@@ -43,12 +43,12 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
       <Text style={styles.title}>Baby Diary</Text>
       <View style={styles.btnsHolder}>
         <Button 
-          title="NEW ENTRY" 
+          text="NEW ENTRY" 
           onPress={navigateToNewEntry}
           style={styles.newEntryBtn}
         />
         <Button 
-          title="DELETE ALL" 
+          text="DELETE ALL" 
           onPress={clearEntries}
           style={styles.deleteAllBtn}
         />

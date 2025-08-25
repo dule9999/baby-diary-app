@@ -2,12 +2,12 @@ import React from 'react'
 import { Pressable, Text, StyleSheet, PressableProps, ViewStyle, StyleProp } from 'react-native'
 
 interface ButtonProps extends Omit<PressableProps, 'style'> {
-  title?: string
+  text?: string
   style?: StyleProp<ViewStyle>
   children?: React.ReactNode
 }
 
-export const Button: React.FC<ButtonProps> = ({ title, style, children, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ text, style, children, ...props }) => {
   return (
     <Pressable
       {...props}
@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({ title, style, children, ...props
         pressed && styles.pressed,
       ]}
     >
-      {children ?? <Text style={styles.text}>{title}</Text>}
+      {children ?? <Text style={styles.text}>{text}</Text>}
     </Pressable>
   )
 }

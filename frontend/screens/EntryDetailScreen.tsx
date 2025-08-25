@@ -61,7 +61,7 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <ScreenWrapper>
-      <Button title="Back" onPress={() => navigation.goBack()} style={styles.backBtn} />
+      <Button text="Back" onPress={() => navigation.goBack()} style={styles.backBtn} />
       <Text style={styles.title}>Entry Detail</Text>
       {entry && (
         <View>
@@ -72,8 +72,8 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
             onChangeText={setEditedNote}
             multiline
           />
-          <Button title="Save" onPress={saveEditedEntry} style={styles.saveBtn} />
-          <Button title="Delete" onPress={handleDelete} style={styles.deleteBtn} />
+          <Button text="Save" onPress={saveEditedEntry} style={styles.saveBtn} />
+          <Button text="Delete" onPress={handleDelete} style={styles.deleteBtn} />
         </View>
       )}
       {!entry && <Text>Entry not found</Text>}

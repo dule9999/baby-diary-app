@@ -15,8 +15,8 @@ const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <ScreenWrapper>
-      <Text style={styles.title}>Baby Screen</Text>
-      <Button title="Go Back" onPress={goBack} />
+      <Text style={styles.title}>Baby</Text>
+      <Button text="Go Back" onPress={goBack} />
       <View style={styles.content}>
         <Text style={styles.name}>{baby.name}</Text>
         <Text>ID: {baby.id}</Text>

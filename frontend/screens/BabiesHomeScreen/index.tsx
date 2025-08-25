@@ -27,10 +27,10 @@ const BabiesHomeScreen: React.FC<Props> = ({ navigation }) => {
 
     return (
         <ScreenWrapper>
-            <Text style={styles.title}>Babies Home Screen</Text>
+            <Text style={styles.title}>Babies Home</Text>
             <View style={styles.btnsHolder}>
                 <Button 
-                    title="ADD BABY"
+                    text="ADD BABY"
                     onPress={navigateToAddBaby}
                     style={styles.addBabyBtn}
                 />

@@ -34,6 +34,11 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
 
     return (
         <ScreenWrapper>
+            <Text style={styles.title}>Profile</Text>
+            <View style={styles.buttonsContainer}>
+                <Button text="Go Back" onPress={goBack} style={styles.goBackBtn}/>
+                <Button text="Log Out" onPress={doLogout} style={styles.logOutBtn} disabled={loading} />
+            </View>
             <View style={styles.card}>
                 <Image 
                     source={user?.avatarUrl ? { uri: user.avatarUrl } : userIcon}
@@ -42,16 +47,22 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
                 <Text style={styles.username}>{user?.username}</Text>
                 <Text style={styles.email}>{user?.email}</Text>
             </View>
-
-            <View style={styles.buttonsContainer}>
-                <Button title="Go Back" onPress={goBack} style={styles.goBackBtn}/>
-                <Button title="Log Out" onPress={doLogout} style={styles.logOutBtn} disabled={loading} />
-            </View>
         </ScreenWrapper>
     )
 }
 
 const styles = StyleSheet.create({
+    title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
+    buttonsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    goBackBtn: {
+        marginBottom: 12,
+    },
+    logOutBtn: {
+        backgroundColor: '#E53E3E',
+    },
     card: {
         backgroundColor: '#fff',
         borderRadius: 16,
@@ -78,16 +89,6 @@ const styles = StyleSheet.create({
     email: {
         fontSize: 16,
         color: '#666',
-    },
-    buttonsContainer: {
-        marginTop: 'auto',
-        width: '100%',
-    },
-    goBackBtn: {
-        marginBottom: 12,
-    },
-    logOutBtn: {
-        backgroundColor: '#E53E3E',
     },
 })
 

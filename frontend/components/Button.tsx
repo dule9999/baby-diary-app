@@ -2,11 +2,12 @@ import React from 'react'
 import { Pressable, Text, StyleSheet, PressableProps, ViewStyle, StyleProp } from 'react-native'
 
 interface ButtonProps extends Omit<PressableProps, 'style'> {
-  title: string
+  title?: string
   style?: StyleProp<ViewStyle>
+  children?: React.ReactNode
 }
 
-export const Button: React.FC<ButtonProps> = ({ title, style, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ title, style, children, ...props }) => {
   return (
     <Pressable
       {...props}
@@ -16,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({ title, style, ...props }) => {
         pressed && styles.pressed,
       ]}
     >
-      <Text style={styles.text}>{title}</Text>
+      {children ?? <Text style={styles.text}>{title}</Text>}
     </Pressable>
   )
 }
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     alignSelf: 'flex-start',
+    justifyContent: 'center'
   },
   pressed: {
     opacity: 0.8,

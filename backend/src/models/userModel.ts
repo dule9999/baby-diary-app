@@ -8,6 +8,14 @@ export async function findUserByEmail(email: string) {
   return res.rows[0] || null;
 }
 
+export async function findUserById(id: string) {
+  const res = await pool.query(
+    'SELECT id, email, username FROM users WHERE id=$1 LIMIT 1',
+    [id]
+  );
+  return res.rows[0] || null;
+}
+
 export async function createUser(email: string, username: string, passwordHash: string) {
   const res = await pool.query(
     `INSERT INTO users (email, username, password_hash)

@@ -13,6 +13,7 @@
       "@sharedTypes": ["../shared/types/index.ts"],
       "@contexts": ["contexts"],
       "@navigation": ["navigation"],
+      "@assets": ["assets"],
     }
   },
   "include": [

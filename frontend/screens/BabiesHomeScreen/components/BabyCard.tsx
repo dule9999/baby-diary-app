@@ -1,17 +1,16 @@
 import React from "react"
 import { View, Image, Text, StyleSheet } from "react-native"
 import { Baby } from "@sharedTypes"
+import { babyPlaceholder } from "@assets"
 
 interface BabyCardProps {
   baby: Baby
 }
 
-const placeholderImg = require("../../../assets/baby_placeholder.png")
-
 const BabyCard: React.FC<BabyCardProps> = ({ baby }) => {
   const imageSource = baby.img
     ? { uri: baby.img }
-    : placeholderImg
+    : babyPlaceholder
 
   return (
     <View style={styles.card}>

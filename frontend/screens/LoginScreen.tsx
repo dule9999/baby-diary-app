@@ -1,26 +1,34 @@
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import { ScreenWrapper } from '@components'
-import { login } from '@services'
+import { ScreenWrapper, Loader } from '@components'
 import { useAuth } from '@contexts'
 
 const LoginScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setAuthed } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth()
 
   const onLogin = async () => {
+    setLoading(true)
     try {
       await login(email.trim(), password)
-      setAuthed(true)
     } catch (e: any) {
       Alert.alert('Login failed', e.message)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
+
+  const navigateToRegister = () => {
+    navigation.navigate('Register')
+  }
+
+  if (loading) return <Loader />
 
   return (
     <ScreenWrapper style={styles.container}>
-      <Text style={styles.title}>Welcome Back</Text>
+      <Text style={styles.title}>Baby Diary</Text>
 
       <TextInput
         placeholder="Email"
@@ -38,13 +46,18 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
         style={styles.input}
       />
 
-      <TouchableOpacity style={styles.button} onPress={onLogin}>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={onLogin} 
+        disabled={loading}
+      >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
-        onPress={() => navigation.navigate('Register')}
+        onPress={navigateToRegister}
+        disabled={loading}
       >
         <Text style={[styles.buttonText, styles.secondaryButtonText]}>
           Create Account

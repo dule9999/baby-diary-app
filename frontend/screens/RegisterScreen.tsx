@@ -1,23 +1,38 @@
 import React, { useState } from 'react'
 import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import { ScreenWrapper } from '@components'
-import { register } from '@services'
+import { ScreenWrapper, Loader } from '@components'
+import { register as registerService } from '@services'
 import { useAuth } from '@contexts'
 
 const RegisterScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const { setAuthed } = useAuth()
+  const [loading, setLoading] = useState(false);
+  const { login } = useAuth()
 
   const onRegister = async () => {
+    setLoading(true)
     try {
-      await register(email.trim(), password, username.trim())
-      setAuthed(true)
+      await registerService(email.trim(), password, username.trim())
+      try {
+        await login(email.trim(), password)
+      } catch (loginErr: any) {
+        Alert.alert('Could not log in after registration')
+      }
+      
     } catch (e: any) {
       Alert.alert('Register failed', e.message)
+    } finally {
+      setLoading(false)
     }
-  };
+  }
+
+  const navigateToLogin = () => {
+    navigation.navigate('Login')
+  }
+
+  if (loading) return <Loader />
 
   return (
     <ScreenWrapper style={styles.container}>
@@ -45,13 +60,14 @@ const RegisterScreen: React.FC<any> = ({ navigation }) => {
         style={styles.input}
       />
 
-      <TouchableOpacity style={styles.button} onPress={onRegister}>
+      <TouchableOpacity style={styles.button} onPress={onRegister} disabled={loading}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
-        onPress={() => navigation.navigate('Login')}
+        onPress={navigateToLogin}
+        disabled={loading}
       >
         <Text style={[styles.buttonText, styles.secondaryButtonText]}>
           Back to Login

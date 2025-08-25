@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { createUser, findUserByEmail } from '../models/userModel';
 import { hashPassword, verifyPassword } from '../utils/hash';
 import { signJwt } from '../utils/jwt';
+import { AuthRequest } from '../middleware/auth'
+import { findUserById } from '../models/userModel';
 
 export async function register(req: Request, res: Response) {
   try {
@@ -43,4 +45,14 @@ export async function login(req: Request, res: Response) {
     console.error(e);
     res.status(500).json({ error: 'Login failed' });
   }
+}
+
+export async function getCurrentUser(req: AuthRequest, res: Response) {
+  const userId = req.user?.id;
+  if (!userId) return res.status(401).json({ error: 'Not authenticated' });
+
+  const user = await findUserById(userId);
+  if (!user) return res.status(404).json({ error: 'User not found' });
+
+  return res.json(user);
 }

@@ -12,6 +12,7 @@
       "@services": ["services"],
       "@sharedTypes": ["../shared/types/index.ts"],
       "@contexts": ["contexts"],
+      "@navigation": ["navigation"],
     }
   },
   "include": [

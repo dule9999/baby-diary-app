@@ -16,6 +16,7 @@ module.exports = function(api) {
             '@services': './services',
             '@sharedTypes': '../shared/types',
             '@contexts': './contexts',
+            '@navigation': './navigation',
           }
         }
       ]

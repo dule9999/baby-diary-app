@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { ScreenWrapper } from '@components'
 import { register } from '@services'
 import { useAuth } from '@contexts'

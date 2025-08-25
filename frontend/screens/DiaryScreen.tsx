@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { ScreenWrapper, EntryCard, Button } from '@components'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../App'
+import { RootStackParamList } from '@navigation'
 import { useFocusEffect } from '@react-navigation/native'
 import { Entry } from '@sharedTypes';
 import { fetchEntries, deleteAllEntries } from '@services'

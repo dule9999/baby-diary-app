@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Text, StyleSheet } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../App"
+import { RootStackParamList } from "@navigation"
 import { Button, ScreenWrapper } from "@components"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Baby">

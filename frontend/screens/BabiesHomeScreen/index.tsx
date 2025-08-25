@@ -1,7 +1,7 @@
 import React from "react"
 import { StyleSheet, Text } from "react-native"
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../App'
+import { RootStackParamList } from '@navigation'
 import { ScreenWrapper } from "@components"
 import BabiesList from "./components/BabiesList"
 import { Button } from "@components"

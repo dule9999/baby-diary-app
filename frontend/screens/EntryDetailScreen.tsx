@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, TextInput, View, Alert } from 'react-native'
-import { RootStackParamList } from '../App'
+import { RootStackParamList } from '@navigation'
 import { ScreenWrapper, Button } from '@components'
 import { Entry } from '@sharedTypes'
 import { fetchEntry, updateEntry, deleteEntry } from '@services'

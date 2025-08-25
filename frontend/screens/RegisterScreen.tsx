@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { View, TextInput, Button, Alert } from 'react-native'
+import { SafeAreaView, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { ScreenWrapper } from '@components'
 import { register } from '@services'
 import { useAuth } from '@contexts'
 
@@ -19,27 +20,84 @@ const RegisterScreen: React.FC<any> = ({ navigation }) => {
   };
 
   return (
-    <View style={{ padding: 16 }}>
-      <TextInput 
-        placeholder="Email" 
-        autoCapitalize="none" 
-        onChangeText={setEmail} 
-        value={email} 
+    <ScreenWrapper style={styles.container}>
+      <Text style={styles.title}>Create Account</Text>
+
+      <TextInput
+        placeholder="Email"
+        autoCapitalize="none"
+        keyboardType="email-address"
+        onChangeText={setEmail}
+        value={email}
+        style={styles.input}
       />
-      <TextInput 
-        placeholder="Username" 
-        onChangeText={setUsername} 
-        value={username} 
+      <TextInput
+        placeholder="Username"
+        onChangeText={setUsername}
+        value={username}
+        style={styles.input}
       />
-      <TextInput 
-        placeholder="Password" 
-        secureTextEntry 
-        onChangeText={setPassword} 
-        value={password} 
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={setPassword}
+        value={password}
+        style={styles.input}
       />
-      <Button title="Create account" onPress={onRegister} />
-    </View>
-  );
-};
+
+      <TouchableOpacity style={styles.button} onPress={onRegister}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={[styles.button, styles.secondaryButton]}
+        onPress={() => navigation.navigate('Login')}
+      >
+        <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+          Back to Login
+        </Text>
+      </TouchableOpacity>
+    </ScreenWrapper>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: '600',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 16,
+    fontSize: 16,
+    backgroundColor: '#f9f9f9',
+  },
+  button: {
+    backgroundColor: '#007bff',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+    textAlign: 'center',
+    fontSize: 16,
+  },
+  secondaryButton: {
+    backgroundColor: '#f1f1f1',
+  },
+  secondaryButtonText: {
+    color: '#007bff',
+  },
+});
 
 export default RegisterScreen

@@ -1,6 +1,6 @@
 import { Response } from 'express';
 import { AuthRequest } from '../middleware/auth';
-import { listBabiesForUser, createBabyForUser, linkUserToBaby } from '../models/babyModel';
+import { listBabiesForUser, createBabyForUser, linkUserToBaby, deleteBaby } from '../models/babyModel';
 
 export async function getMyBabies(req: AuthRequest, res: Response) {
   try {
@@ -41,3 +41,22 @@ export async function inviteUserToBaby(req: AuthRequest, res: Response) {
     res.status(500).json({ error: 'Failed to invite user' });
   }
 }
+
+export async function removeBaby(req: AuthRequest, res: Response) {
+  try {
+    const { babyId } = req.params;
+    const user = req.user!;
+    
+    if (!babyId) return res.status(400).json({ error: 'babyId is required' });
+
+    const deleted = await deleteBaby(babyId, user.id);
+    if (!deleted) return res.status(404).json({ error: 'Baby not found or not authorized' });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ error: 'Failed to remove baby'})
+  }
+  
+}
+

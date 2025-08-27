@@ -1,9 +1,9 @@
-import { apiFetch } from "./api";
-import { getToken } from "./auth";
+import { apiFetch } from "./api"
+import { getToken } from "./auth"
 
 export async function getBabies() {
   const token = await getToken()
-  return apiFetch("/api/babies", {}, token || undefined);
+  return apiFetch("/api/babies", {}, token || undefined)
 }
 
 export async function createBaby(
@@ -13,7 +13,7 @@ export async function createBaby(
   return apiFetch("/api/babies", {
     method: "POST",
     body: JSON.stringify(baby),
-  }, token || undefined);
+  }, token || undefined)
 }
 
 export async function inviteUserToBaby(babyId: string, email: string) {
@@ -21,5 +21,11 @@ export async function inviteUserToBaby(babyId: string, email: string) {
   return apiFetch(`/api/babies/${babyId}/invite`, {
     method: "POST",
     body: JSON.stringify({ email }),
-  }, token || undefined);
+  }, token || undefined)
 }
+
+export async function deleteBaby(babyId: string) {
+  const token = await getToken()
+  return apiFetch(`/api/babies/${babyId}`, { method: 'DELETE' }, token || undefined)
+}
+

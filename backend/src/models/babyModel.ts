@@ -49,3 +49,18 @@ export async function linkUserToBaby(byEmail: string, babyId: string) {
   );
   return res.rows[0] || null; // null means already linked
 }
+
+export async function deleteBaby(babyId: string, userId: string) {
+  // Only allow the owner to delete
+  const res = await pool.query(
+    `DELETE FROM babies 
+     WHERE id = $1 AND id IN (
+       SELECT baby_id FROM baby_users WHERE user_id = $2 AND role = 'owner'
+     )
+     RETURNING id`,
+    [babyId, userId]
+  );
+
+  return res.rows[0] || null; // null if not found or user not owner
+}
+

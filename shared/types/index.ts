@@ -6,10 +6,14 @@ export interface User {
 }
 
 export interface Baby {
-    id: string
-    name: string
-    img: string
-    diary: Entry[]
+  id: string;
+  name: string;
+  img?: string | null;
+  date_of_birth?: string | null; // ISO string
+  blood_group?: string | null;
+  address?: string | null;
+  diary?: Entry[];          // optional, for frontend diary usage
+  role?: 'owner' | 'viewer';     // optional, based on baby_users
 }
 
 export interface Entry {

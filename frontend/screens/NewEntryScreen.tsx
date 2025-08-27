@@ -31,8 +31,12 @@ const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
     }
   }
 
+  const goBack = () => {
+    navigation.goBack()
+  }
+
   return (
-    <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+    <TouchableWithoutFeedback onPress={goBack}>
       <View style={styles.overlay}>
         <TouchableWithoutFeedback>
           <View style={styles.modal}>

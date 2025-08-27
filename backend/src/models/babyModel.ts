@@ -23,6 +23,7 @@ export async function createBabyForUser(userId: string, data: {
      )
      INSERT INTO baby_users (user_id, baby_id, role)
      SELECT $6, inserted.id, 'owner' FROM inserted
+     ON CONFLICT DO NOTHING
      RETURNING (SELECT id FROM inserted) AS id`,
     [data.name, data.img || null, data.date_of_birth || null, data.blood_group || null, data.address || null, userId]
   );
@@ -39,11 +40,12 @@ export async function linkUserToBaby(byEmail: string, babyId: string) {
   if (!u.rows[0]) return null;
   const userId = u.rows[0].id;
 
-  await pool.query(
+  const res = await pool.query(
     `INSERT INTO baby_users (user_id, baby_id, role)
      VALUES ($1, $2, 'viewer')
-     ON CONFLICT DO NOTHING`,
+     ON CONFLICT DO NOTHING
+     RETURNING user_id, baby_id, role`,
     [userId, babyId]
   );
-  return { userId, babyId };
+  return res.rows[0] || null; // null means already linked
 }

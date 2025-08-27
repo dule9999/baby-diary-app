@@ -10,19 +10,14 @@ import { formatEntryDate } from '@helpers'
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 
 const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { entryId } = route.params
+  const { babyId, entryId } = route.params
   const [entry, setEntry] = useState<Entry | null>(null)
   const [editedNote, setEditedNote] = useState<string>('')
 
   const loadEntry = async () => {
     try {
-      const res = await fetchEntry(entryId)
-      const fetchedEntry: Entry = {
-        id: entryId,
-        note: res.note,
-        date: formatEntryDate(res.date)
-      }
-      setEntry(fetchedEntry)
+      const res = await fetchEntry(babyId, entryId)
+      setEntry(res)
       setEditedNote(res.note || '')
     } catch (err) {
       console.error(err)
@@ -36,11 +31,10 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
   const saveEditedEntry = async () => {
     if (!entry) return
-    const updatedEntry: Entry = { ...entry, note: editedNote }
 
     try {
-      const res = await updateEntry(entryId, updatedEntry)
-      setEntry(res)
+      const updatedEntry = await updateEntry(babyId, entryId, { note: editedNote})
+      setEntry(updatedEntry)
       Alert.alert("Success", "Entry updated successfully!")
     } catch (err) {
       console.error(err)
@@ -50,7 +44,7 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
   const handleDelete = async () => {
     try {
-      await deleteEntry(entryId)
+      await deleteEntry(babyId, entryId)
       Alert.alert("Success", "Entry deleted successfully!")
       navigation.goBack()
     } catch (err) {
@@ -63,9 +57,9 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
     <ScreenWrapper>
       <Button text="Back" onPress={() => navigation.goBack()} style={styles.backBtn} />
       <Text style={styles.title}>Entry Detail</Text>
-      {entry && (
+      {entry ? (
         <View>
-          <Text style={styles.date}>{entry.date}</Text>
+          <Text style={styles.date}>{formatEntryDate(entry.date)}</Text>
           <TextInput
             style={styles.input}
             value={editedNote}
@@ -75,8 +69,9 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
           <Button text="Save" onPress={saveEditedEntry} style={styles.saveBtn} />
           <Button text="Delete" onPress={handleDelete} style={styles.deleteBtn} />
         </View>
+      ) : (
+        <Text>Entry not found</Text>
       )}
-      {!entry && <Text>Entry not found</Text>}
     </ScreenWrapper>
   )
 }

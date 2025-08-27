@@ -7,7 +7,8 @@ import { createEntry } from '@services'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewEntry'>
 
-const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
+const NewEntryScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { baby } = route.params
   const [newNote, setNewNote] = useState<string>('')
 
   const addNewEntry = async () => {
@@ -19,10 +20,11 @@ const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
     const newEntry = {
       date: new Date().toISOString(),
       note: newNote,
+      babyId: baby.id, // send babyId to backend
     }
 
     try {
-      const res = await createEntry(newEntry)
+      await createEntry(baby.id, newEntry)
       setNewNote('')
       navigation.goBack()
     } catch (err) {
@@ -49,9 +51,7 @@ const NewEntryScreen: React.FC<Props> = ({ navigation }) => {
             <Button
               text='ADD'
               style={styles.addNoteBtn}
-              onPress={async () => {
-                await addNewEntry()
-              }}
+              onPress={addNewEntry}
             />
           </View>
         </TouchableWithoutFeedback>

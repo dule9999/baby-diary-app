@@ -1,20 +1,31 @@
 import { Router } from 'express';
 import {
-  listEntries,
-  getEntry,
-  createEntryHandler,
-  updateEntryHandler,
-  deleteEntryHandler,
-  deleteAllEntriesHandler,
+  listEntriesForBaby,
+  getEntryForBaby,
+  createEntryForBabyHandler,
+  updateEntryForBabyHandler,
+  deleteEntryForBabyHandler,
+  deleteAllEntriesForBabyHandler,
 } from '../controllers/entryController';
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-router.get('/entries', listEntries);
-router.get('/entries/:id', getEntry);
-router.post('/entries', createEntryHandler);
-router.put('/entries/:id', updateEntryHandler);
-router.delete('/entries/:id', deleteEntryHandler);
-router.delete('/entries', deleteAllEntriesHandler)
+// GET /babies/:babyId/entries
+router.get('/', listEntriesForBaby);
+
+// GET /babies/:babyId/entries/:entryId
+router.get('/:entryId', getEntryForBaby);
+
+// POST /babies/:babyId/entries
+router.post('/', createEntryForBabyHandler);
+
+// PUT /babies/:babyId/entries/:entryId
+router.put('/:entryId', updateEntryForBabyHandler);
+
+// DELETE /babies/:babyId/entries/:entryId
+router.delete('/:entryId', deleteEntryForBabyHandler);
+
+// DELETE /babies/:babyId/entries
+router.delete('/', deleteAllEntriesForBabyHandler);
 
 export default router;

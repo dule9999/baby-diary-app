@@ -15,21 +15,30 @@ import { fetchEntries, deleteAllEntries } from '@services'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
-const DiaryScreen: React.FC<Props> = ({ navigation }) => {
+const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
+  const { baby } = route.params
   const [entries, setEntries] = useState<Entry[]>([])
 
+  const goBack = () => {
+    navigation.goBack()
+  }
+
   const loadEntries = async () => {
-    const apiEntries = await fetchEntries()
-    setEntries(apiEntries)
+    try {
+      const apiEntries = await fetchEntries(baby.id)
+      setEntries(apiEntries)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const clearEntries = async () => {
-    await deleteAllEntries()
+    await deleteAllEntries(baby.id)
     setEntries([])
   }
 
   const navigateToNewEntry = () => {
-    navigation.navigate('NewEntry')
+    navigation.navigate('NewEntry', { baby })
   }
 
   useFocusEffect(
@@ -40,7 +49,10 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <ScreenWrapper>
-      <Text style={styles.title}>Baby Diary</Text>
+      <View style={styles.titleHolder}>
+        <Button text="Go Back" onPress={goBack} />
+        <Text style={styles.title}>{baby.name} Diary</Text>
+      </View>
       <View style={styles.btnsHolder}>
         <Button 
           text="NEW ENTRY" 
@@ -61,7 +73,7 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('EntryDetail', { entryId: item.id })
+                navigation.navigate('EntryDetail', { babyId: baby.id, entryId: item.id })
               }
             >
               <EntryCard entry={item} />
@@ -75,11 +87,12 @@ const DiaryScreen: React.FC<Props> = ({ navigation }) => {
 }
 
 const styles = StyleSheet.create({
+  titleHolder: {flexDirection: 'row', marginBottom: 20},
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16, },
   noEntriesText: {margin: 50, alignSelf: 'center', fontSize: 20},
   btnsHolder: {flexDirection: 'row', justifyContent: 'space-between'},
   newEntryBtn: { backgroundColor: 'blue' },
   deleteAllBtn: {backgroundColor: 'red'},
-  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 16 },
   entriesList: { marginTop: 16 },
 })
 

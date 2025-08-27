@@ -1,16 +1,20 @@
 import { Request, Response } from 'express';
 import {
-  getAllEntries,
+  getEntriesForBaby,
   getEntryById,
-  createEntry,
+  createEntryForBaby,
   updateEntry,
   deleteEntry,
-  deleteAllEntries,
+  deleteAllEntriesForBaby,
 } from '../models/entryModel';
 
-export async function listEntries(req: Request, res: Response) {
+// -------------------
+// List entries for a baby
+// -------------------
+export async function listEntriesForBaby(req: Request, res: Response) {
   try {
-    const entries = await getAllEntries();
+    const { babyId } = req.params;
+    const entries = await getEntriesForBaby(babyId);
     res.json(entries);
   } catch (err: any) {
     console.error(err);
@@ -18,9 +22,13 @@ export async function listEntries(req: Request, res: Response) {
   }
 }
 
-export async function getEntry(req: Request, res: Response) {
+// -------------------
+// Get single entry
+// -------------------
+export async function getEntryForBaby(req: Request, res: Response) {
   try {
-    const entry = await getEntryById(req.params.id);
+    const { babyId, entryId } = req.params;
+    const entry = await getEntryById(babyId, entryId);
     if (!entry) return res.status(404).json({ error: 'Entry not found' });
     res.json(entry);
   } catch (err: any) {
@@ -29,13 +37,19 @@ export async function getEntry(req: Request, res: Response) {
   }
 }
 
-export async function createEntryHandler(req: Request, res: Response) {
+// -------------------
+// Create entry
+// -------------------
+export async function createEntryForBabyHandler(req: Request, res: Response) {
   try {
+    const { babyId } = req.params;
     const { date, note } = req.body || {};
-    if (typeof date !== 'string' || typeof note !== 'string') {
-      return res.status(400).json({ error: 'Body must include date (string) and note (string)' });
+
+    if (!date || !note) {
+      return res.status(400).json({ error: 'Body must include date and note' });
     }
-    const entry = await createEntry({ date, note });
+
+    const entry = await createEntryForBaby({ date, note, babyId });
     res.status(201).json(entry);
   } catch (err: any) {
     console.error(err);
@@ -46,13 +60,19 @@ export async function createEntryHandler(req: Request, res: Response) {
   }
 }
 
-export async function updateEntryHandler(req: Request, res: Response) {
+// -------------------
+// Update entry
+// -------------------
+export async function updateEntryForBabyHandler(req: Request, res: Response) {
   try {
-    const { date, note } = req.body || {};
-    if (typeof date !== 'string' || typeof note !== 'string') {
-      return res.status(400).json({ error: 'Body must include date (string) and note (string)' });
+    const { babyId, entryId } = req.params;
+    const { note } = req.body || {};
+
+    if (!note) {
+      return res.status(400).json({ error: 'Body must include note' });
     }
-    const updated = await updateEntry(req.params.id, { date, note });
+
+    const updated = await updateEntry(babyId, entryId, { note });
     if (!updated) return res.status(404).json({ error: 'Entry not found' });
     res.json(updated);
   } catch (err: any) {
@@ -64,9 +84,13 @@ export async function updateEntryHandler(req: Request, res: Response) {
   }
 }
 
-export async function deleteEntryHandler(req: Request, res: Response) {
+// -------------------
+// Delete entry
+// -------------------
+export async function deleteEntryForBabyHandler(req: Request, res: Response) {
   try {
-    const ok = await deleteEntry(req.params.id);
+    const { babyId, entryId } = req.params;
+    const ok = await deleteEntry(babyId, entryId);
     if (!ok) return res.status(404).json({ error: 'Entry not found' });
     res.status(204).send();
   } catch (err: any) {
@@ -75,13 +99,15 @@ export async function deleteEntryHandler(req: Request, res: Response) {
   }
 }
 
-export async function deleteAllEntriesHandler(req: Request, res: Response) {
+// -------------------
+// Delete all entries for a baby
+// -------------------
+export async function deleteAllEntriesForBabyHandler(req: Request, res: Response) {
   try {
-    const ok = await deleteAllEntries()
-    if (!ok) {
-      return res.status(404).json({ message: 'No entries to delete' })
-    }
-    res.status(204).send()
+    const { babyId } = req.params;
+    const ok = await deleteAllEntriesForBaby(babyId);
+    if (!ok) return res.status(404).json({ error: 'No entries to delete' });
+    res.status(204).send();
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ error: 'Failed to delete all entries' });

@@ -1,44 +1,53 @@
 import { Entry } from '@sharedTypes';
-import { API_ENTRIES } from '@constants';
+import { apiFetch } from './api';
+import { getToken } from './auth';
 
-export async function fetchEntries(): Promise<Entry[]> {
-  const res = await fetch(`${API_ENTRIES}`);
-  if (!res.ok) throw new Error('Failed to fetch entries');
-  return res.json();
+// Fetch all entries for a baby
+export async function fetchEntries(babyId: string): Promise<Entry[]> {
+  const token = await getToken();
+  return apiFetch(`/api/babies/${babyId}/entries`, {}, token || undefined);
 }
 
-export async function fetchEntry(id: string): Promise<Entry> {
-  const res = await fetch(`${API_ENTRIES}/${id}`);
-  if (!res.ok) throw new Error('Failed to fetch entry');
-  return res.json();
+// Fetch a single entry
+export async function fetchEntry(babyId: string, entryId: string): Promise<Entry> {
+  const token = await getToken();
+  return apiFetch(`/api/babies/${babyId}/entries/${entryId}`, {}, token || undefined);
 }
 
-export async function createEntry(entry: Omit<Entry, 'id'>): Promise<Entry> {
-  const res = await fetch(`${API_ENTRIES}`, {
+// Create entry
+export async function createEntry(babyId: string, entry: Omit<Entry, 'id'>): Promise<Entry> {
+  const token = await getToken();
+  return apiFetch(`/api/babies/${babyId}/entries`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(entry),
-  });
-  if (!res.ok) throw new Error('Failed to create entry');
-  return res.json();
+  }, token || undefined);
 }
 
-export async function updateEntry(id: string, entry: Omit<Entry, 'id'>): Promise<Entry> {
-  const res = await fetch(`${API_ENTRIES}/${id}`, {
+// Update entry
+export async function updateEntry(
+  babyId: string,
+  entryId: string,
+  noteUpdate: {note: string}
+): Promise<Entry> {
+  const token = await getToken();
+  return apiFetch(`/api/babies/${babyId}/entries/${entryId}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(entry),
-  });
-  if (!res.ok) throw new Error('Failed to update entry');
-  return res.json();
+    body: JSON.stringify(noteUpdate),
+  }, token || undefined);
 }
 
-export async function deleteEntry(id: string): Promise<void> {
-  const res = await fetch(`${API_ENTRIES}/${id}`, { method: 'DELETE' });
-  if (!res.ok) throw new Error('Failed to delete entry');
+// Delete entry
+export async function deleteEntry(babyId: string, entryId: string): Promise<void> {
+  const token = await getToken();
+  return apiFetch(`/api/babies/${babyId}/entries/${entryId}`, {
+    method: 'DELETE',
+  }, token || undefined);
 }
 
-export async function deleteAllEntries(): Promise<void> {
-  const res = await fetch(`${API_ENTRIES}`, { method: 'DELETE' })
-  if (!res.ok) throw new Error('Failed to delete all entries') 
+// Delete all entries
+export async function deleteAllEntries(babyId: string): Promise<void> {
+  const token = await getToken();
+  return apiFetch(`/api/babies/${babyId}/entries`, {
+    method: 'DELETE',
+  }, token || undefined);
 }

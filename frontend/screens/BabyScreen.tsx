@@ -37,19 +37,24 @@ const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
     )
   }
 
+  const goToDiary = () => {
+    navigation.navigate('Diary', { baby })
+  }
 
   return (
     <ScreenWrapper>
-      <Text style={styles.title}>Baby</Text>
+      <Text style={styles.title}>Baby {baby.name}</Text>
       <View style={styles.btnsHolder}>
         <Button text="Go Back" onPress={goBack} />
         <Button text="Remove" onPress={handleDeleteBaby} style={styles.removeBabyBtn} />
       </View>
       
       <View style={styles.content}>
-        <Text style={styles.name}>{baby.name}</Text>
+        <Text style={styles.name}>Name: {baby.name}</Text>
         <Text>ID: {baby.id}</Text>
       </View>
+
+      <Button text="Open Diary" onPress={goToDiary} />
     </ScreenWrapper>
   )
 }

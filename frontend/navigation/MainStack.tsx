@@ -13,9 +13,9 @@ export type RootStackParamList = {
   BabiesHome: undefined
   AddBaby: undefined
   Baby: { baby: Baby }
-  Diary: { newEntry?: string } | undefined
-  NewEntry: undefined
-  EntryDetail: { entryId: string }
+  Diary: { baby: Baby }
+  NewEntry: { baby: Baby }
+  EntryDetail: { babyId: string, entryId: string }
   Profile: undefined
 };
 

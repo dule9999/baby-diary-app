@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/api/babies', babyRoutes);
-app.use('/api', entryRoutes);
+app.use('/api/babies/:babyId/entries', entryRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setUser(currentUser)
           setAuthed(true)
         } catch (err) {
-          console.error('Failed to fetch current user', err)
+          console.error('No valid session, going to login.', err)
           setUser(null)
           setAuthed(false)
         }

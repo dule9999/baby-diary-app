@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import { ScreenWrapper, Loader, BcgGradient } from '@components'
+import { TextInput, StyleSheet, Alert } from 'react-native'
+import { ScreenWrapper, Loader, BcgGradient, Button } from '@components'
 import { useAuth } from '@contexts'
 import Animated, { 
   FadeInDown, 
   FadeInUp, 
   useSharedValue, 
   useAnimatedStyle, 
-  withSpring, 
   withRepeat, 
-  withTiming, 
+  withTiming,
 } from 'react-native-reanimated'
 
 const LoginScreen: React.FC<any> = ({ navigation }) => {
@@ -34,14 +33,6 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }]
   }))
-
-  const onPressIn = () => {
-    scale.value = withSpring(0.95, { damping: 10, stiffness: 200 })
-  }
-
-  const onPressOut = () => {
-    scale.value = withSpring(1, { damping: 10, stiffness: 200 })
-  }
 
   const onLogin = async () => {
     setLoading(true)
@@ -96,27 +87,20 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
 
       {/* Buttons */}
       <Animated.View entering={FadeInUp.delay(600).duration(600)} style={animatedStyle}>
-        <TouchableOpacity
+        <Button
+          text="Login"
           style={styles.button}
           onPress={onLogin}
-          onPressIn={onPressIn}
-          onPressOut={onPressOut}
-        >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
+        />
       </Animated.View>
 
       <Animated.View entering={FadeInUp.delay(800).duration(600)} style={animatedStyle}>
-        <TouchableOpacity
+        <Button
+          text="Create Account"
+          textStyle={[styles.buttonText, styles.secondaryButtonText]}
           style={[styles.button, styles.secondaryButton]}
           onPress={navigateToRegister}
-          onPressIn={onPressIn}
-          onPressOut={onPressOut}
-        >
-          <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-            Create Account
-          </Text>
-        </TouchableOpacity>
+        />
       </Animated.View>
     </ScreenWrapper>
   )
@@ -135,8 +119,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
   },
   button: {
+    alignSelf: 'auto',
     backgroundColor: '#007bff',
-    padding: 16,
+    paddingVertical: 16,
     borderRadius: 12,
     marginBottom: 12,
   },

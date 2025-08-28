@@ -1,13 +1,14 @@
 import React from 'react'
-import { Pressable, Text, StyleSheet, PressableProps, ViewStyle, StyleProp } from 'react-native'
+import { Pressable, Text, StyleSheet, PressableProps, ViewStyle, StyleProp, TextStyle } from 'react-native'
 
 interface ButtonProps extends Omit<PressableProps, 'style'> {
   text?: string
+  textStyle?: StyleProp<TextStyle>
   style?: StyleProp<ViewStyle>
   children?: React.ReactNode
 }
 
-export const Button: React.FC<ButtonProps> = ({ text, style, children, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ text, textStyle, style, children, ...props }) => {
   return (
     <Pressable
       {...props}
@@ -17,7 +18,7 @@ export const Button: React.FC<ButtonProps> = ({ text, style, children, ...props 
         pressed && styles.pressed,
       ]}
     >
-      {children ?? <Text style={styles.text}>{text}</Text>}
+      {children ?? <Text style={[styles.text, textStyle]}>{text}</Text>}
     </Pressable>
   )
 }
@@ -38,6 +39,6 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 })

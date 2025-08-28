@@ -10,10 +10,8 @@ import Animated, {
   withRepeat, 
   withTiming,
 } from 'react-native-reanimated'
-import { useNavigator } from '@hooks'
 
-const LoginScreen: React.FC<any> = () => {
-  const { navigateToScreen } = useNavigator()
+const LoginScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -46,6 +44,8 @@ const LoginScreen: React.FC<any> = () => {
       setLoading(false)
     }
   }
+
+  const navigateToRegister = () => navigation.navigate('Register')
 
   if (loading) return <Loader />
 
@@ -85,22 +85,25 @@ const LoginScreen: React.FC<any> = () => {
         />
       </Animated.View>
 
-      {/* Buttons */}
-      <Animated.View entering={FadeInUp.delay(600).duration(600)} style={animatedStyle}>
-        <Button
-          text="Login"
-          style={styles.button}
-          onPress={onLogin}
-        />
+      <Animated.View entering={FadeInUp.delay(600).duration(600)}>
+        <Animated.View style={animatedStyle}>
+          <Button
+            text="Login"
+            style={styles.button}
+            onPress={onLogin}
+          />
+        </Animated.View>
       </Animated.View>
 
-      <Animated.View entering={FadeInUp.delay(800).duration(600)} style={animatedStyle}>
-        <Button
-          text="Create Account"
-          textStyle={[styles.buttonText, styles.secondaryButtonText]}
-          style={[styles.button, styles.secondaryButton]}
-          onPress={navigateToScreen('Register')}
-        />
+      <Animated.View entering={FadeInUp.delay(800).duration(600)}>
+        <Animated.View style={animatedStyle}>
+          <Button
+            text="Create Account"
+            textStyle={[styles.buttonText, styles.secondaryButtonText]}
+            style={[styles.button, styles.secondaryButton]}
+            onPress={navigateToRegister}
+          />
+        </Animated.View>
       </Animated.View>
     </ScreenWrapper>
   )

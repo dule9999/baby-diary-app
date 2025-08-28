@@ -3,10 +3,8 @@ import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-nati
 import { ScreenWrapper, Loader } from '@components'
 import { register as registerService } from '@services'
 import { useAuth } from '@contexts'
-import { useNavigator } from '@hooks'
 
-const RegisterScreen: React.FC<any> = () => {
-  const { navigateToScreen } = useNavigator()
+const RegisterScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -29,6 +27,8 @@ const RegisterScreen: React.FC<any> = () => {
       setLoading(false)
     }
   }
+
+  const navigateToLogin = () => navigation.navigate('Login')
 
   if (loading) return <Loader />
 
@@ -64,7 +64,7 @@ const RegisterScreen: React.FC<any> = () => {
 
       <TouchableOpacity
         style={[styles.button, styles.secondaryButton]}
-        onPress={navigateToScreen('Login')}
+        onPress={navigateToLogin}
         disabled={loading}
       >
         <Text style={[styles.buttonText, styles.secondaryButtonText]}>

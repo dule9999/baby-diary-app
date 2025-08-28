@@ -8,12 +8,10 @@ import BabiesList from "./components/BabiesList"
 import { Button, Loader } from "@components"
 import { userIcon } from "@assets"
 import { getBabies } from "@services"
-import { useNavigator } from "@hooks"
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
-const HomeScreen: React.FC<Props> = () => {
-    const { navigateToScreen } = useNavigator()
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
     const [babies, setBabies] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -40,6 +38,9 @@ const HomeScreen: React.FC<Props> = () => {
         }, [])
     )
 
+    const navigateToAddBaby = () => navigation.navigate('AddBaby')
+    const navigateToProfile = () => navigation.navigate('Profile')
+
     if (loading) return <Loader />
 
     return (
@@ -48,11 +49,11 @@ const HomeScreen: React.FC<Props> = () => {
             <View style={styles.btnsHolder}>
                 <Button 
                     text="ADD BABY"
-                    onPress={navigateToScreen('AddBaby')}
+                    onPress={navigateToAddBaby}
                     style={styles.addBabyBtn}
                 />
                 <Button 
-                    onPress={navigateToScreen('Profile')} 
+                    onPress={navigateToProfile} 
                     style={styles.profileBtn} 
                 >
                     <Image source={userIcon} style={styles.profileImg} />
@@ -62,7 +63,7 @@ const HomeScreen: React.FC<Props> = () => {
             {babies.length !== 0 ?
                 <BabiesList 
                     babies={babies} 
-                    navigateToBabyScreen={(baby) => navigateToScreen("Baby", { baby })} 
+                    navigateToBabyScreen={(baby) => navigation.navigate("Baby", { baby })} 
                 />
                 :
                 <Text style={styles.noBabiesCurrentlyText}>No babies added currently.</Text>

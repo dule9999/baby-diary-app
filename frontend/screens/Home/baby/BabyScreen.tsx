@@ -4,14 +4,13 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "@navigation"
 import { Button, ScreenWrapper } from "@components"
 import { deleteBaby } from "@services"
-import { useGoBack, useNavigator } from "@hooks"
+import { useGoBack } from "@hooks"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Baby">
 
 const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const goBack = useGoBack()
-  const { navigateToScreen } = useNavigator()
 
   const handleDeleteBaby = async () => {
     Alert.alert(
@@ -36,6 +35,8 @@ const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
     )
   }
 
+    const navigateToDiary = () => navigation.navigate('Diary', {baby})
+
   return (
     <ScreenWrapper>
       <Text style={styles.title}>Baby {baby.name}</Text>
@@ -49,7 +50,7 @@ const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
         <Text>ID: {baby.id}</Text>
       </View>
 
-      <Button text="Open Diary" onPress={navigateToScreen('Diary', {baby})} />
+      <Button text="Open Diary" onPress={navigateToDiary} />
     </ScreenWrapper>
   )
 }

@@ -12,7 +12,7 @@ import { RootStackParamList } from '@navigation'
 import { useFocusEffect } from '@react-navigation/native'
 import { Entry } from '@sharedTypes';
 import { fetchEntries, deleteAllEntries } from '@services'
-import { useGoBack, useNavigator } from '@hooks'
+import { useGoBack } from '@hooks'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
@@ -20,7 +20,6 @@ const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const [entries, setEntries] = useState<Entry[]>([])
   const goBack = useGoBack()
-  const { navigateToScreen } = useNavigator()
 
   const loadEntries = async () => {
     try {
@@ -42,6 +41,8 @@ const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
     }, [])
   )
 
+  const navigateToNewEntry = () => navigation.navigate('NewEntry', {baby})
+
   return (
     <ScreenWrapper>
       <View style={styles.titleHolder}>
@@ -51,7 +52,7 @@ const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
       <View style={styles.btnsHolder}>
         <Button 
           text="NEW ENTRY" 
-          onPress={navigateToScreen('NewEntry')}
+          onPress={navigateToNewEntry}
           style={styles.newEntryBtn}
         />
         <Button 
@@ -66,7 +67,7 @@ const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
           data={entries}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={navigateToScreen('EntryDetail', { babyId: baby.id, entryId: item.id })}>
+            <TouchableOpacity onPress={() => navigation.navigate('EntryDetail', { babyId: baby.id, entryId: item.id })}>
               <EntryCard entry={item} />
             </TouchableOpacity>
           )}

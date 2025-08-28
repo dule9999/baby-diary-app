@@ -1,6 +1,8 @@
 import { useAuth } from '@contexts'
-import { MainNavigator, AuthNavigator} from '@navigation'
-import { AuthStackParamList, MainStackParamList } from '@navigation'
+import { MainNavigator } from './MainStack'
+import { AuthNavigator } from './AuthStack'
+import { AuthStackParamList } from './AuthStack'
+import { MainStackParamList } from './MainStack'
 
 export type RootStackParamList = AuthStackParamList & MainStackParamList
 

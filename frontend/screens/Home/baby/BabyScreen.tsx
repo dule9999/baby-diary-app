@@ -35,7 +35,7 @@ const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
     )
   }
 
-    const navigateToDiary = () => navigation.navigate('Diary', {baby})
+  const navigateToDiary = () => navigation.navigate('Diary', {baby})
 
   return (
     <ScreenWrapper>

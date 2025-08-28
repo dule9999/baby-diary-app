@@ -1,10 +1,7 @@
-import * as SecureStore from 'expo-secure-store'
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react'
 import { User } from '@sharedTypes'
 import { getToken, login as loginService, logout as logoutService, getCurrentUser } from '@services'
 import { Loader } from '@components'
-
-const TOKEN_KEY = 'auth_token'
 
 interface AuthContextType {
   authed: boolean

@@ -29,7 +29,6 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
     )
   }, [])
 
-
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }]
   }))

@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Entry } from '@sharedTypes'
 import { formatEntryDate } from '@helpers'
 
-
 interface EntryCardProps {
     entry: Entry
 }

@@ -1,1 +1,0 @@
-export const DIARY_ENTRIES = '@diary_entries'

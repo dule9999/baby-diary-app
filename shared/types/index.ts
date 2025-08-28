@@ -9,11 +9,11 @@ export interface Baby {
   id: string;
   name: string;
   img?: string | null;
-  date_of_birth?: string | null; // ISO string
+  date_of_birth?: string | null;
   blood_group?: string | null;
   address?: string | null;
-  diary?: Entry[];          // optional, for frontend diary usage
-  role?: 'owner' | 'viewer';     // optional, based on baby_users
+  diary?: Entry[];
+  role?: 'owner' | 'viewer';
 }
 
 export interface Entry {

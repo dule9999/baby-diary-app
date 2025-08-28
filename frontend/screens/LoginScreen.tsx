@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import { ScreenWrapper, Loader } from '@components'
+import { ScreenWrapper, Loader, BcgGradient } from '@components'
 import { useAuth } from '@contexts'
 import Animated, { 
   FadeInDown, 
@@ -10,9 +10,7 @@ import Animated, {
   withSpring, 
   withRepeat, 
   withTiming, 
-  interpolateColor 
 } from 'react-native-reanimated'
-import { LinearGradient } from 'expo-linear-gradient'
 
 const LoginScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('')
@@ -32,11 +30,6 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
     )
   }, [])
 
-  const animatedBackground = useAnimatedStyle(() => {
-    const color1 = interpolateColor(progress.value, [0, 1], ['#FFD6E0', '#FFB6C1']) // soft pink shades
-    const color2 = interpolateColor(progress.value, [0, 1], ['#B3E5FC', '#81D4FA']) // soft blue shades
-    return { colors: [color1, color2] } as any
-  })
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }]
@@ -68,12 +61,11 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
   return (
     <ScreenWrapper style={styles.container}>
       {/* Animated Gradient Background */}
-      <Animated.View style={[StyleSheet.absoluteFill, animatedBackground]}>
-        <LinearGradient
-          colors={['#FFD6E0', '#B3E5FC']}
-          style={StyleSheet.absoluteFill}
-        />
-      </Animated.View>
+      <BcgGradient
+        progress={progress}
+        colorsStart={['#FFD6E0', '#B3E5FC']}
+        colorsEnd={['#FFB6C1', '#81D4FA']}
+      />
 
       {/* Animated Title */}
       <Animated.Text entering={FadeInDown.duration(600)} style={styles.title}>

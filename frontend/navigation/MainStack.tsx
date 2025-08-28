@@ -9,7 +9,7 @@ import NewEntryScreen from '@screens/Home/baby/diary/NewEntryScreen'
 import EntryDetailScreen from '@screens/Home/baby/diary/EntryDetailScreen'
 import ProfileScreen from '@screens/Home/ProfileScreen'
 
-export type RootStackParamList = {
+export type MainStackParamList = {
   Home: undefined
   AddBaby: undefined
   Baby: { baby: Baby }
@@ -19,7 +19,7 @@ export type RootStackParamList = {
   Profile: undefined
 };
 
-const AppStack = createNativeStackNavigator<RootStackParamList>()
+const AppStack = createNativeStackNavigator<MainStackParamList>()
 
 export function MainNavigator() {
   return (

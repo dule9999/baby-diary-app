@@ -1,4 +1,4 @@
-//CURRENTLY NOT IN USE; TRANSFERRED THIS LOGIC TO BE API
+//CURRENTLY NOT IN USE; TRANSFERRED THIS LOGIC TO API
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Entry } from '@sharedTypes';

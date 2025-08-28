@@ -6,6 +6,7 @@ import { ScreenWrapper, Button } from '@components'
 import { Entry } from '@sharedTypes'
 import { fetchEntry, updateEntry, deleteEntry } from '@services'
 import { formatEntryDate } from '@helpers'
+import { useGoBack } from '@hooks'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 
@@ -13,6 +14,7 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
   const { babyId, entryId } = route.params
   const [entry, setEntry] = useState<Entry | null>(null)
   const [editedNote, setEditedNote] = useState<string>('')
+  const goBack = useGoBack()
 
   const loadEntry = async () => {
     try {
@@ -46,7 +48,7 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
     try {
       await deleteEntry(babyId, entryId)
       Alert.alert("Success", "Entry deleted successfully!")
-      navigation.goBack()
+      goBack()
     } catch (err) {
       console.error(err)
       Alert.alert("Error", "Failed to delete entry")
@@ -55,7 +57,7 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
 
   return (
     <ScreenWrapper>
-      <Button text="Back" onPress={() => navigation.goBack()} style={styles.backBtn} />
+      <Button text="Back" onPress={goBack} style={styles.backBtn} />
       <Text style={styles.title}>Entry Detail</Text>
       {entry ? (
         <View>

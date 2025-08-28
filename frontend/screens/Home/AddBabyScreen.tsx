@@ -4,16 +4,18 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
 import { Button } from '@components'
 import { createBaby } from '@services'
+import { useGoBack } from '@hooks'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddBaby'>
 
-const AddBabyScreen: React.FC<Props> = ({ navigation, route }) => {
+const AddBabyScreen: React.FC<Props> = ({ navigation }) => {
   const [name, setName] = useState('')
   const [img, setImg] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [bloodGroup, setBloodGroup] = useState('')
   const [address, setAddress] = useState('')
   const [loading, setLoading] = useState(false)
+  const goBack = useGoBack()
 
   const addNewBaby = async () => {
     if (!name.trim()) {
@@ -30,17 +32,13 @@ const AddBabyScreen: React.FC<Props> = ({ navigation, route }) => {
       setDateOfBirth('')
       setBloodGroup('')
       setAddress('')
-      navigation.goBack()
+      goBack()
     } catch (err: any) {
       console.error(err)
       Alert.alert("Error", err.message || "Failed to add baby")
     } finally {
       setLoading(false)
     }
-  }
-
-  const goBack = () => {
-    navigation.goBack()
   }
 
   return (

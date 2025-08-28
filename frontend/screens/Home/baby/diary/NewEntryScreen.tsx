@@ -4,12 +4,14 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
 import { Button } from '@components'
 import { createEntry } from '@services'
+import { useGoBack } from '@hooks'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewEntry'>
 
 const NewEntryScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const [newNote, setNewNote] = useState<string>('')
+  const goBack = useGoBack()
 
   const addNewEntry = async () => {
     if (!newNote.trim()) {
@@ -31,10 +33,6 @@ const NewEntryScreen: React.FC<Props> = ({ route, navigation }) => {
       console.error(err)
       Alert.alert("Error", "Failed to create entry")
     }
-  }
-
-  const goBack = () => {
-    navigation.goBack()
   }
 
   return (

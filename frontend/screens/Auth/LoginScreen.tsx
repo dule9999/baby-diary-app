@@ -10,8 +10,10 @@ import Animated, {
   withRepeat, 
   withTiming,
 } from 'react-native-reanimated'
+import { useNavigator } from '@hooks'
 
-const LoginScreen: React.FC<any> = ({ navigation }) => {
+const LoginScreen: React.FC<any> = () => {
+  const { navigateToScreen } = useNavigator()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -44,8 +46,6 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
       setLoading(false)
     }
   }
-
-  const navigateToRegister = () => navigation.navigate('Register')
 
   if (loading) return <Loader />
 
@@ -99,7 +99,7 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
           text="Create Account"
           textStyle={[styles.buttonText, styles.secondaryButtonText]}
           style={[styles.button, styles.secondaryButton]}
-          onPress={navigateToRegister}
+          onPress={navigateToScreen('Register')}
         />
       </Animated.View>
     </ScreenWrapper>

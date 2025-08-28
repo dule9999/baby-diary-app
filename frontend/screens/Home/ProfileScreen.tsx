@@ -5,16 +5,14 @@ import { RootStackParamList } from '@navigation'
 import { ScreenWrapper, Button, Loader } from "@components"
 import { useAuth } from "@contexts"
 import { userIcon } from "@assets"
+import { useGoBack } from "@hooks"
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>
 
 const ProfileScreen: React.FC<Props> = ({ navigation }) => {
     const [loading, setLoading] = useState(false)
     const { logout, user } = useAuth()
-
-    const goBack = () => {
-        navigation.goBack()
-    }
+    const goBack = useGoBack()
 
     const doLogout = async () => {
         setLoading(true)

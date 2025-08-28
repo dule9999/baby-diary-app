@@ -9,9 +9,9 @@ import { Button, Loader } from "@components"
 import { userIcon } from "@assets"
 import { getBabies } from "@services"
 
-type Props = NativeStackScreenProps<RootStackParamList, 'BabiesHome'>
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>
 
-const BabiesHomeScreen: React.FC<Props> = ({ navigation }) => {
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
     const [babies, setBabies] = useState([])
     const [loading, setLoading] = useState(true)
 
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   noBabiesCurrentlyText: {fontSize: 20, margin: 20, textAlign: 'center'}
 })
 
-export default BabiesHomeScreen
+export default HomeScreen

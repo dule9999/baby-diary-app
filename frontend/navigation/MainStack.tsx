@@ -1,16 +1,16 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { Baby } from '@sharedTypes'
-import BabiesHomeScreen from '@screens/BabiesHomeScreen'
-import BabyScreen from '@screens/BabyScreen'
-import AddBabyScreen from '@screens/AddBabyScreen'
-import DiaryScreen from '@screens/DiaryScreen'
-import NewEntryScreen from '@screens/NewEntryScreen'
-import EntryDetailScreen from '@screens/EntryDetailScreen'
-import ProfileScreen from '@screens/ProfileScreen'
+import HomeScreen from '@screens/Home'
+import BabyScreen from '@screens/Home/baby/BabyScreen'
+import AddBabyScreen from '@screens/Home/AddBabyScreen'
+import DiaryScreen from '@screens/Home/baby/diary/DiaryScreen'
+import NewEntryScreen from '@screens/Home/baby/diary/NewEntryScreen'
+import EntryDetailScreen from '@screens/Home/baby/diary/EntryDetailScreen'
+import ProfileScreen from '@screens/Home/ProfileScreen'
 
 export type RootStackParamList = {
-  BabiesHome: undefined
+  Home: undefined
   AddBaby: undefined
   Baby: { baby: Baby }
   Diary: { baby: Baby }
@@ -23,8 +23,8 @@ const AppStack = createNativeStackNavigator<RootStackParamList>()
 
 export function MainNavigator() {
   return (
-    <AppStack.Navigator initialRouteName="BabiesHome" screenOptions={{ headerShown: false }}>
-      <AppStack.Screen name="BabiesHome" component={BabiesHomeScreen} />
+    <AppStack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <AppStack.Screen name="Home" component={HomeScreen} />
       <AppStack.Screen name="Baby" component={BabyScreen} />
       <AppStack.Screen
         name="AddBaby"

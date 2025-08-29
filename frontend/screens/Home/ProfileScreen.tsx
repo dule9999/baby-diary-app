@@ -9,7 +9,7 @@ import { useGoBack } from "@hooks"
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>
 
-const ProfileScreen: React.FC<Props> = ({ navigation }) => {
+const ProfileScreen: React.FC<Props> = () => {
 		const [loading, setLoading] = useState(false)
     const { logout, user } = useAuth()
     const goBack = useGoBack()

@@ -3,42 +3,35 @@ import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Alert, ScrollVie
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
 import { Button } from '@components'
-import { createBaby } from '@services'
 import { useGoBack } from '@hooks'
+import { useCreateBabyMutation } from '@reactquery'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddBaby'>
 
-const AddBabyScreen: React.FC<Props> = ({ navigation }) => {
+const AddBabyScreen: React.FC<Props> = () => {
   const [name, setName] = useState('')
   const [img, setImg] = useState('')
   const [dateOfBirth, setDateOfBirth] = useState('')
   const [bloodGroup, setBloodGroup] = useState('')
   const [address, setAddress] = useState('')
-  const [loading, setLoading] = useState(false)
   const goBack = useGoBack()
+  const createBabyMutation = useCreateBabyMutation()
 
-  const addNewBaby = async () => {
+   const addNewBaby = () => {
     if (!name.trim()) {
       Alert.alert("Error", "Baby name is required")
       return
     }
-
-    setLoading(true)
-    try {
-      await createBaby({ name, img, date_of_birth: dateOfBirth, blood_group: bloodGroup, address })
-      Alert.alert("Success", "Baby added successfully")
-      setName('')
-      setImg('')
-      setDateOfBirth('')
-      setBloodGroup('')
-      setAddress('')
-      goBack()
-    } catch (err: any) {
-      console.error(err)
-      Alert.alert("Error", err.message || "Failed to add baby")
-    } finally {
-      setLoading(false)
-    }
+    createBabyMutation.mutate({ name, img, date_of_birth: dateOfBirth, blood_group: bloodGroup, address }, {
+      onSuccess: () => {
+        Alert.alert("Success", "Baby added successfully")
+        goBack()
+      },
+      onError: (err: any) => {
+        console.error(err)
+        Alert.alert("Error", err.message || "Failed to add baby")
+      },
+    })
   }
 
   return (
@@ -78,10 +71,10 @@ const AddBabyScreen: React.FC<Props> = ({ navigation }) => {
                 onChangeText={setAddress}
               />
               <Button
-                text={loading ? "Adding..." : "ADD BABY"}
+                text={createBabyMutation.isPending ? "Adding..." : "ADD BABY"}
                 style={styles.addBabyBtn}
                 onPress={addNewBaby}
-                disabled={loading}
+                disabled={createBabyMutation.isPending}
               />
             </ScrollView>
           </View>

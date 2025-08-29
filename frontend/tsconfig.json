@@ -15,6 +15,7 @@
       "@navigation": ["navigation"],
       "@assets": ["assets"],
       "@hooks": ["hooks"],
+      "@reactquery": ["reactquery"],
     }
   },
   "include": [

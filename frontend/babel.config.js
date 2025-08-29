@@ -19,6 +19,7 @@ module.exports = function(api) {
             '@navigation': './navigation',
             '@assets': './assets',
             '@hooks': './hooks',
+            '@reactquery': './reactquery',
           }
         },
         'react-native-reanimated/plugin',

@@ -3,33 +3,34 @@ import { View, Text, StyleSheet, Alert } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "@navigation"
 import { Button, ScreenWrapper } from "@components"
-import { deleteBaby } from "@services"
 import { useGoBack } from "@hooks"
+import { useDeleteBabyMutation } from "@reactquery"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Baby">
 
 const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const goBack = useGoBack()
+  const deleteBabyMutation = useDeleteBabyMutation()
 
-  const handleDeleteBaby = async () => {
+  const handleDeleteBaby = () => {
     Alert.alert(
-      'Delete Baby',
-      'Are you sure you want to delete this baby?',
+      "Remove Baby",
+      "Are you sure you want to remove this baby from the list?",
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: "Cancel", style: "cancel" },
         {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await deleteBaby(baby.id)
+          text: "Delete",
+          style: "destructive",
+          onPress: () =>  deleteBabyMutation.mutate(baby.id, {
+            onSuccess: () => {
+              Alert.alert("Success", "Baby removed from the list successfully")
               goBack()
-            } catch (err) {
-              console.error(err)
-              Alert.alert('Error', 'Failed to delete baby')
-            }
-          },
+            },
+            onError: () => {
+              Alert.alert("Error", "Failed to remove the baby from the list")
+            },
+          })
         },
       ]
     )

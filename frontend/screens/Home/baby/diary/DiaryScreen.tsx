@@ -5,14 +5,17 @@ import {
     Text,
     TouchableOpacity,
     View,
+    Alert
 } from 'react-native'
-import { ScreenWrapper, EntryCard, Button } from '@components'
+import { ScreenWrapper, EntryCard, Button, SnackType } from '@components'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
 import { useFocusEffect } from '@react-navigation/native'
 import { Entry } from '@sharedTypes';
 import { fetchEntries, deleteAllEntries } from '@services'
 import { useGoBack } from '@hooks'
+import { useSnackStore } from '@stores'
+import { deleteAllEntriesTitleMsg, deleteAllEntriesTextMsg, cancelText, deleteText, deleteAllEntriesSuccessMsg } from '@constants'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Diary'>
 
@@ -20,6 +23,7 @@ const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const [entries, setEntries] = useState<Entry[]>([])
   const goBack = useGoBack()
+  const { showSnack } = useSnackStore()
 
   const loadEntries = async () => {
     try {
@@ -31,8 +35,22 @@ const DiaryScreen: React.FC<Props> = ({ route, navigation }) => {
   }
 
   const clearEntries = async () => {
-    await deleteAllEntries(baby.id)
-    setEntries([])
+    Alert.alert(
+      deleteAllEntriesTitleMsg,
+      deleteAllEntriesTextMsg,
+      [
+        { text: cancelText, style: "cancel" },
+        {
+          text: deleteText,
+          style: "destructive",
+          onPress: async () =>  {
+            await deleteAllEntries(baby.id)
+            setEntries([])
+            showSnack(deleteAllEntriesSuccessMsg, SnackType.Success)
+          }
+        },
+      ]
+    )
   }
 
   useFocusEffect(

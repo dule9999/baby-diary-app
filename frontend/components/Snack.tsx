@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Animated, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-export enum SnackEnum {
+export enum SnackType {
   Info = 'info',
   Success = 'success',
   Error = 'error',
@@ -9,12 +9,12 @@ export enum SnackEnum {
 
 interface SnackProps {
   message: string
-  type?: SnackEnum
+  type?: SnackType
   duration?: number
   onDismiss?: () => void
 }
 
-export const Snack: React.FC<SnackProps> = ({ message, type = SnackEnum.Info, duration = 3000, onDismiss }) => {
+export const Snack: React.FC<SnackProps> = ({ message, type = SnackType.Info, duration = 3000, onDismiss }) => {
   const [visible, setVisible] = useState(true)
   const [opacity] = useState(new Animated.Value(0))
 

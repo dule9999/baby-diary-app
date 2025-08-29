@@ -2,9 +2,18 @@ import React from "react"
 import { View, Text, StyleSheet, Alert } from "react-native"
 import { NativeStackScreenProps } from "@react-navigation/native-stack"
 import { RootStackParamList } from "@navigation"
-import { Button, ScreenWrapper } from "@components"
+import { Button, ScreenWrapper, SnackType } from "@components"
 import { useGoBack } from "@hooks"
 import { useDeleteBabyMutation } from "@reactquery"
+import { useSnackStore } from "@stores"
+import { 
+  removeFromListSuccessMsg, 
+  removeFromListFailedMsg, 
+  deleteText, 
+  cancelText, 
+  removeBabyTittleMsg, 
+  removeBabyTextMsg 
+} from "@constants"
 
 type Props = NativeStackScreenProps<RootStackParamList, "Baby">
 
@@ -12,23 +21,24 @@ const BabyScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const goBack = useGoBack()
   const deleteBabyMutation = useDeleteBabyMutation()
+  const { showSnack } = useSnackStore()
 
   const handleDeleteBaby = () => {
     Alert.alert(
-      "Remove Baby",
-      "Are you sure you want to remove this baby from the list?",
+      removeBabyTittleMsg,
+      removeBabyTextMsg,
       [
-        { text: "Cancel", style: "cancel" },
+        { text: cancelText, style: "cancel" },
         {
-          text: "Delete",
+          text: deleteText,
           style: "destructive",
           onPress: () =>  deleteBabyMutation.mutate(baby.id, {
             onSuccess: () => {
-              Alert.alert("Success", "Baby removed from the list successfully")
+              showSnack(removeFromListSuccessMsg, SnackType.Success)
               goBack()
             },
-            onError: () => {
-              Alert.alert("Error", "Failed to remove the baby from the list")
+            onError: (error) => {
+              showSnack(`${removeFromListFailedMsg}${error.message}`, SnackType.Error)
             },
           })
         },

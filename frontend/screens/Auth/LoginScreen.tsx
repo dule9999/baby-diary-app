@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { TextInput, StyleSheet, Alert } from 'react-native'
-import { ScreenWrapper, Loader, BcgGradient, Button } from '@components'
+import { TextInput, StyleSheet } from 'react-native'
+import { ScreenWrapper, Loader, BcgGradient, Button, SnackType } from '@components'
 import { useAuth } from '@contexts'
 import Animated, { 
   FadeInDown, 
@@ -10,12 +10,15 @@ import Animated, {
   withRepeat, 
   withTiming,
 } from 'react-native-reanimated'
+import { useSnackStore } from '@stores'
+import { loginSuccessMsg, loginFailedMsg } from '@constants'
 
 const LoginScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const { login } = useAuth()
+  const { showSnack } = useSnackStore()
 
   const scale = useSharedValue(1)
   const progress = useSharedValue(0)
@@ -37,8 +40,9 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
     setLoading(true)
     try {
       await login(email.trim(), password)
+      showSnack(loginSuccessMsg, SnackType.Success)
     } catch (e: any) {
-      Alert.alert('Login failed', e.message)
+      showSnack(`${loginFailedMsg}${e.message}`, SnackType.Error)
     } finally {
       setLoading(false)
     }

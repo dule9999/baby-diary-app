@@ -1,3 +1,3 @@
-export * from './babies/useBabiesQuery'
-export * from './babies/useCreateBabyMutation'
-export * from './babies/useDeleteBabyMutation'
+export * from './queries/useBabiesQuery'
+export * from './mutations/useCreateBabyMutation'
+export * from './mutations/useDeleteBabyMutation'

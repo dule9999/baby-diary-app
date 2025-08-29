@@ -4,5 +4,8 @@
   "dev": true,
   "minify": false,
   "urlRandomness": null,
-  "https": false
+  "https": false,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false
 }

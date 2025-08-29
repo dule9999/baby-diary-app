@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
-import { Button, SnackEnum } from '@components'
+import { Button, SnackType } from '@components'
 import { useGoBack } from '@hooks'
 import { useCreateBabyMutation } from '@reactquery'
 import { addBabySuccessMsg, addBabyFailureMsg, addBabyNameReqMsg } from '@constants'
@@ -22,17 +22,17 @@ const AddBabyScreen: React.FC<Props> = () => {
 
   const addNewBaby = () => {
     if (!name.trim()) {
-      showSnack(addBabyNameReqMsg, SnackEnum.Info)
+      showSnack(addBabyNameReqMsg, SnackType.Info)
       return
     }
     createBabyMutation.mutate({ name, img, date_of_birth: dateOfBirth, blood_group: bloodGroup, address }, {
       onSuccess: () => {
         goBack()
-        showSnack(addBabySuccessMsg, SnackEnum.Success)
+        showSnack(addBabySuccessMsg, SnackType.Success)
       },
       onError: (err: any) => {
         console.error(err)
-        showSnack(err.message || addBabyFailureMsg, SnackEnum.Error)
+        showSnack(err.message || addBabyFailureMsg, SnackType.Error)
       },
     })
   }

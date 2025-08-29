@@ -1,2 +1,2 @@
 export * from './api'
-export * from './snackMessages'
+export * from './localization'

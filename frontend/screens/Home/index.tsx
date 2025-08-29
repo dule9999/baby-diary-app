@@ -22,19 +22,19 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
 		<ScreenWrapper>
 			<Text style={styles.title}>Babies Home</Text>
 			<View style={styles.btnsHolder}>
-					<Button 
-						text="ADD BABY"
-						onPress={navigateToAddBaby}
-						style={styles.addBabyBtn}
-						testID="add-baby-btn"
-					/>
-					<Button 
-						onPress={navigateToProfile} 
-						style={styles.profileBtn}
-						testID="profile-btn"
-					>
-						<Image source={userIcon} style={styles.profileImg} />
-					</Button>
+				<Button 
+					text="ADD BABY"
+					onPress={navigateToAddBaby}
+					style={styles.addBabyBtn}
+					testID="add-baby-btn"
+				/>
+				<Button 
+					onPress={navigateToProfile} 
+					style={styles.profileBtn}
+					testID="profile-btn"
+				>
+					<Image source={userIcon} style={styles.profileImg} />
+				</Button>
 			</View>
 			
 			{babies.length !== 0 ?

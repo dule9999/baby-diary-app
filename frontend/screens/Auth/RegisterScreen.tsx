@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import { ScreenWrapper, Loader } from '@components'
+import { Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { ScreenWrapper, Loader, SnackType } from '@components'
 import { register as registerService } from '@services'
 import { useAuth } from '@contexts'
+import { useSnackStore } from '@stores'
+import { loginSuccessMsg, cannotLoginAfterRegisterMsg, registerFailedMsg } from '@constants'
 
 const RegisterScreen: React.FC<any> = ({ navigation }) => {
   const [email, setEmail] = useState('')
@@ -10,6 +12,7 @@ const RegisterScreen: React.FC<any> = ({ navigation }) => {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false);
   const { login } = useAuth()
+  const { showSnack } = useSnackStore()
 
   const onRegister = async () => {
     setLoading(true)
@@ -17,12 +20,13 @@ const RegisterScreen: React.FC<any> = ({ navigation }) => {
       await registerService(email.trim(), password, username.trim())
       try {
         await login(email.trim(), password)
+        showSnack(loginSuccessMsg, SnackType.Success)
       } catch (loginErr: any) {
-        Alert.alert('Could not log in after registration')
+        showSnack(`${cannotLoginAfterRegisterMsg}${loginErr}`, SnackType.Error)
       }
       
     } catch (e: any) {
-      Alert.alert('Register failed', e.message)
+      showSnack(`${registerFailedMsg}${e.message}`, SnackType.Error)
     } finally {
       setLoading(false)
     }

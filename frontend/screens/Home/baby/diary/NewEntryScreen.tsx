@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Alert } from 'react-native'
+import { View, StyleSheet, TouchableWithoutFeedback, TextInput } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
-import { Button } from '@components'
+import { Button, SnackType } from '@components'
 import { createEntry } from '@services'
 import { useGoBack } from '@hooks'
+import { useSnackStore } from '@stores'
+import { noteCannotBeEmptyMsg, createEntrySuccessMsg, createEntryFailedMsg } from '@constants'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'NewEntry'>
 
@@ -12,26 +14,28 @@ const NewEntryScreen: React.FC<Props> = ({ route, navigation }) => {
   const { baby } = route.params
   const [newNote, setNewNote] = useState<string>('')
   const goBack = useGoBack()
+  const { showSnack } = useSnackStore()
 
   const addNewEntry = async () => {
     if (!newNote.trim()) {
-      Alert.alert("Error", "Note cannot be empty")
+      showSnack(noteCannotBeEmptyMsg, SnackType.Error)
       return
     }
 
     const newEntry = {
       date: new Date().toISOString(),
       note: newNote,
-      babyId: baby.id, // send babyId to backend
+      babyId: baby.id,
     }
 
     try {
       await createEntry(baby.id, newEntry)
       setNewNote('')
       navigation.goBack()
+      showSnack(createEntrySuccessMsg, SnackType.Success)
     } catch (err) {
       console.error(err)
-      Alert.alert("Error", "Failed to create entry")
+      showSnack(`${createEntryFailedMsg}${err}`, SnackType.Error)
     }
   }
 

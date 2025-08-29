@@ -1,20 +1,29 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, TextInput, View, Alert } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import { RootStackParamList } from '@navigation'
-import { ScreenWrapper, Button } from '@components'
+import { ScreenWrapper, Button, SnackType } from '@components'
 import { Entry } from '@sharedTypes'
 import { fetchEntry, updateEntry, deleteEntry } from '@services'
 import { formatEntryDate } from '@helpers'
 import { useGoBack } from '@hooks'
+import { useSnackStore } from '@stores'
+import { 
+  cannotLoadEntryMsg, 
+  updateEntrySuccessMsg, 
+  updateEntryFailedMsg, 
+  deleteEntrySuccessMsg, 
+  deleteEntryFailedMsg 
+} from '@constants'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'EntryDetail'>
 
-const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
+const EntryDetailScreen: React.FC<Props> = ({ route }) => {
   const { babyId, entryId } = route.params
   const [entry, setEntry] = useState<Entry | null>(null)
   const [editedNote, setEditedNote] = useState<string>('')
   const goBack = useGoBack()
+  const { showSnack } = useSnackStore()
 
   const loadEntry = async () => {
     try {
@@ -23,7 +32,7 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
       setEditedNote(res.note || '')
     } catch (err) {
       console.error(err)
-      Alert.alert("Error", "Could not load entry")
+      showSnack(`${cannotLoadEntryMsg}${err}`, SnackType.Error)
     }
   }
 
@@ -37,21 +46,21 @@ const EntryDetailScreen: React.FC<Props> = ({ route, navigation }) => {
     try {
       const updatedEntry = await updateEntry(babyId, entryId, { note: editedNote})
       setEntry(updatedEntry)
-      Alert.alert("Success", "Entry updated successfully!")
+      showSnack(updateEntrySuccessMsg, SnackType.Success)
     } catch (err) {
       console.error(err)
-      Alert.alert("Error", "Failed to update entry")
+      showSnack(`${updateEntryFailedMsg}${err}`, SnackType.Error)
     }
   }
 
   const handleDelete = async () => {
     try {
       await deleteEntry(babyId, entryId)
-      Alert.alert("Success", "Entry deleted successfully!")
+      showSnack(deleteEntrySuccessMsg, SnackType.Success)
       goBack()
     } catch (err) {
       console.error(err)
-      Alert.alert("Error", "Failed to delete entry")
+      showSnack(deleteEntryFailedMsg, SnackType.Error)
     }
   }
 

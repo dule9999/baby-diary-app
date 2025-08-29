@@ -16,7 +16,7 @@ const ProfileScreen: React.FC<Props> = ({ navigation }) => {
 
     const doLogout = async () => {
         setLoading(true)
-        // wait a tick so React can render Loader TODO Remove before publish BE
+        // wait a tick so React can render Loader TODO Remove before publish
         setTimeout(async () => {
             try {
             await logout()

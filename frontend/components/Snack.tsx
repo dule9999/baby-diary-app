@@ -14,7 +14,7 @@ interface SnackProps {
   onDismiss?: () => void
 }
 
-export const Snack: React.FC<SnackProps> = ({ message, type = 'info', duration = 3000, onDismiss }) => {
+export const Snack: React.FC<SnackProps> = ({ message, type = SnackEnum.Info, duration = 3000, onDismiss }) => {
   const [visible, setVisible] = useState(true)
   const [opacity] = useState(new Animated.Value(0))
 

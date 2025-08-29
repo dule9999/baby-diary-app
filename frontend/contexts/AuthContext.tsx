@@ -60,7 +60,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await logoutService() // deletes token
   }
 
-  if (!ready) return <Loader /> // show splash/loading screen while fetching
+  if (!ready) return <Loader/>
 
   return (
     <AuthContext.Provider value={{ authed, user, login, logout }}>

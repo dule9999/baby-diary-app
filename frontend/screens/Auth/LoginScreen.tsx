@@ -52,6 +52,7 @@ const LoginScreen: React.FC<any> = ({ navigation }) => {
     <ScreenWrapper style={styles.container}>
       {/* Animated Gradient Background */}
       <BcgGradient
+        testID="bg-gradient"
         progress={progress}
         colorsStart={['#FFD6E0', '#B3E5FC']}
         colorsEnd={['#FFB6C1', '#81D4FA']}

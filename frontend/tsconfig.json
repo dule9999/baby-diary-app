@@ -21,6 +21,6 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "../shared/**/*.ts",
+    "../shared/**/*.ts", "jest.setup.js",
   ]
 }

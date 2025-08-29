@@ -28,7 +28,7 @@ const ProfileScreen: React.FC<Props> = () => {
         }, 400)
     }
 
-    if(loading) return <Loader />
+    if(loading) return <Loader/>
 
     return (
         <ScreenWrapper>

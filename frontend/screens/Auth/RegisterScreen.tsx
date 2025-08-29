@@ -30,7 +30,7 @@ const RegisterScreen: React.FC<any> = ({ navigation }) => {
 
   const navigateToLogin = () => navigation.navigate('Login')
 
-  if (loading) return <Loader />
+  if (loading) return <Loader/>
 
   return (
     <ScreenWrapper style={styles.container}>

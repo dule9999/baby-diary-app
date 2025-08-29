@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableWithoutFeedback, TextInput, Alert, ScrollView } from 'react-native'
+import { View, StyleSheet, TouchableWithoutFeedback, TextInput, ScrollView } from 'react-native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { RootStackParamList } from '@navigation'
-import { Button } from '@components'
+import { Button, SnackEnum } from '@components'
 import { useGoBack } from '@hooks'
 import { useCreateBabyMutation } from '@reactquery'
+import { addBabySuccessMsg, addBabyFailureMsg, addBabyNameReqMsg } from '@constants'
+import { useSnackStore } from '@stores'
 
 type Props = NativeStackScreenProps<RootStackParamList, 'AddBaby'>
 
@@ -16,20 +18,21 @@ const AddBabyScreen: React.FC<Props> = () => {
   const [address, setAddress] = useState('')
   const goBack = useGoBack()
   const createBabyMutation = useCreateBabyMutation()
+  const { showSnack } = useSnackStore()
 
-   const addNewBaby = () => {
+  const addNewBaby = () => {
     if (!name.trim()) {
-      Alert.alert("Error", "Baby name is required")
+      showSnack(addBabyNameReqMsg, SnackEnum.Info)
       return
     }
     createBabyMutation.mutate({ name, img, date_of_birth: dateOfBirth, blood_group: bloodGroup, address }, {
       onSuccess: () => {
-        Alert.alert("Success", "Baby added successfully")
         goBack()
+        showSnack(addBabySuccessMsg, SnackEnum.Success)
       },
       onError: (err: any) => {
         console.error(err)
-        Alert.alert("Error", err.message || "Failed to add baby")
+        showSnack(err.message || addBabyFailureMsg, SnackEnum.Error)
       },
     })
   }

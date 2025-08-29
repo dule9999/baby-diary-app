@@ -16,6 +16,7 @@
       "@assets": ["assets"],
       "@hooks": ["hooks"],
       "@reactquery": ["reactquery"],
+      "@stores": ["stores"],
     }
   },
   "include": [

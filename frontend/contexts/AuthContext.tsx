@@ -1,7 +1,8 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react'
 import { User } from '@sharedTypes'
-import { getToken, login as loginService, logout as logoutService, getCurrentUser } from '@services'
+import { getToken, login as loginService, logout as logoutService } from '@services'
 import { Loader } from '@components'
+import { useGetCurrentUserQuery } from '@reactquery'
 
 interface AuthContextType {
   authed: boolean
@@ -20,6 +21,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authed, setAuthed] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [ready, setReady] = useState(false)
+  const { data: currentUser } = useGetCurrentUserQuery()
 
   // Run once on mount: check if token exists and fetch user
   useEffect(() => {
@@ -27,8 +29,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const token = await getToken()
       if (token) {
         try {
-          const currentUser = await getCurrentUser()
-          setUser(currentUser)
+          setUser(currentUser ?? null)
           setAuthed(true)
         } catch (err) {
           console.error('No valid session, going to login.', err)
@@ -43,8 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       await loginService(email, password) // stores token
-      const currentUser = await getCurrentUser() // fetch user
-      setUser(currentUser)
+      setUser(currentUser ?? null)
       setAuthed(true)
     } catch (err) {
       console.error('Login failed', err)
